@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBC文件编辑器</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DBC文件编辑器</h1>
+            <p>多通道CAN报文批量生成工具</p>
+        </header>
+
+        <main>
+            <!-- 字段配置管理区域 -->
+            <section class="field-config-section">
+                <h2>字段配置管理</h2>
+                <div class="config-controls">
+                    <div class="frame-format-controls">
+                        <label for="frameFormat">帧格式:</label>
+                        <select id="frameFormat">
+                            <option value="extended">扩展帧 (29位)</option>
+                            <option value="standard">标准帧 (11位)</option>
+                        </select>
+                        <span class="frame-info" id="frameInfo">ID范围: 0x00000000 - 0x1FFFFFFF</span>
+                    </div>
+                    <div class="template-controls">
+                        <label for="configTemplate">配置模板:</label>
+                        <select id="configTemplate">
+                            <option value="default">默认配置</option>
+                            <option value="simple">简单配置</option>
+                            <option value="split_channel">分段示例</option>
+                        </select>
+                        <button type="button" id="loadTemplateBtn" class="btn-secondary">加载模板</button>
+                        <button type="button" id="saveTemplateBtn" class="btn-secondary">保存模板</button>
+                    </div>
+                    <div class="field-controls">
+                        <button type="button" id="addFieldBtn" class="btn-primary">添加字段</button>
+                        <button type="button" id="autoArrangeBtn" class="btn-secondary">自动排列</button>
+                        <span class="total-bits-info">总位数: <span id="totalBitsDisplay">24</span> / <span id="maxBitsDisplay">29</span></span>
+                    </div>
+                </div>
+                
+                <!-- 字段列表 -->
+                <div class="fields-container">
+                    <h3>字段定义</h3>
+                    <div id="fieldsContainer">
+                        <!-- 字段会动态添加到这里 -->
+                    </div>
+                </div>
+                
+                <!-- 位图可视化 -->
+                <div class="bitmap-visualization">
+                    <h3>位图可视化</h3>
+                    <div class="bitmap-container">
+                        <div class="bit-scale">
+                            <!-- 位置标尺 -->
+                        </div>
+                        <div class="bit-display" id="bitDisplay">
+                            <!-- 位图显示 -->
+                        </div>
+                        <div class="bit-labels">
+                            <!-- 位标签 -->
+                        </div>
+                    </div>
+                    <div class="bitmap-legend">
+                        <span class="legend-item"><span class="color-box used"></span>已使用</span>
+                        <span class="legend-item"><span class="color-box unused"></span>未使用</span>
+                        <span class="legend-item"><span class="color-box conflict"></span>冲突</span>
+                        <div id="fieldColorLegend" class="field-color-legend">
+                            <!-- 动态生成的字段颜色图例 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 报文ID配置区域 -->
+            <section class="config-section">
+                <h2>报文ID数值配置</h2>
+                <div class="id-config" id="idConfigContainer">
+                    <!-- 动态生成的字段输入控件 -->
+                </div>
+                <div class="id-preview">
+                    <strong>当前报文ID: </strong>
+                    <span id="messageIdPreview">0x000</span>
+                    <span class="id-binary" id="binaryPreview">(二进制: 000000000000000000000000)</span>
+                </div>
+            </section>
+
+            <!-- 多报文管理区域 -->
+            <section class="message-section">
+                <h2>报文管理</h2>
+                <div class="message-controls">
+                    <button type="button" id="addMessageBtn" class="btn-primary">添加报文</button>
+                    <span class="message-count-info">已配置报文: <span id="messageCountDisplay">1</span> 个</span>
+                </div>
+                
+                <!-- 报文列表 -->
+                <div class="messages-container">
+                    <div id="messagesContainer">
+                        <!-- 报文会动态添加到这里 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 批量生成区域 -->
+            <section class="batch-section">
+                <h2>批量生成</h2>
+                
+                <!-- 批量字段配置 -->
+                <div class="batch-fields-config">
+                    <h3>批量字段配置</h3>
+                    <p style="color: #666; margin-bottom: 15px;">选择哪些字段在批量生成时会变化，并设置它们的取值范围。</p>
+                    <div id="batchFieldsContainer">
+                        <!-- 动态生成的批量字段配置 -->
+                    </div>
+                </div>
+                
+                <div class="batch-config">
+                    <div class="field-group">
+                        <label for="channelRangeStart">起始通道编号:</label>
+                        <input type="number" id="channelRangeStart" min="0" max="9999" value="0">
+                    </div>
+                    <div class="field-group">
+                        <label for="channelRangeEnd">结束通道编号:</label>
+                        <input type="number" id="channelRangeEnd" min="0" max="9999" value="7">
+                    </div>
+                    <div class="field-group">
+                        <label for="namingPattern">命名模式:</label>
+                        <input type="text" id="namingPattern" placeholder="例如: Channel_{num}_Data" value="Channel_{num}_Data">
+                        <span class="hint">{num} 会被替换为通道编号</span>
+                    </div>
+                    <div class="batch-info">
+                        <p style="color: #666; font-size: 0.9em; margin: 10px 0;">
+                            💡 <strong>生成说明</strong>: 系统将为每个通道编号生成对应的报文，选定的批量字段将根据设置的范围自动变化。
+                        </p>
+                    </div>
+                </div>
+                <button type="button" id="generateBtn" class="btn-success">生成所有通道报文</button>
+            </section>
+
+            <!-- 预览和导出区域 -->
+            <section class="export-section">
+                <h2>预览与导出</h2>
+                <div class="preview-controls">
+                    <button type="button" id="previewBtn" class="btn-secondary">预览DBC内容</button>
+                    <button type="button" id="exportBtn" class="btn-success">导出DBC文件</button>
+                </div>
+                <div class="preview-area">
+                    <textarea id="dbcPreview" readonly placeholder="DBC文件内容将显示在这里..."></textarea>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
