@@ -104,6 +104,35 @@
                         <!-- 报文会动态添加到这里 -->
                     </div>
                 </div>
+                
+                <!-- 当前选中报文的位图可视化 -->
+                <div class="message-bitmap-section" id="messageBitmapSection" style="display: none;">
+                    <h3>信号位图可视化</h3>
+                    <div class="message-bitmap-info">
+                        <p>当前报文: <span id="currentMessageName">未选择</span> | 报文长度: <span id="currentMessageLength">8</span> 字节 (<span id="currentMessageBits">64</span>位)</p>
+                    </div>
+                    <div class="message-bitmap-container">
+                        <div class="message-bit-scale">
+                            <!-- 位置标尺 -->
+                        </div>
+                        <div class="message-bit-display" id="messageBitDisplay">
+                            <!-- 位图显示 -->
+                        </div>
+                        <div class="message-bit-labels">
+                            <!-- 位标签 -->
+                        </div>
+                    </div>
+                    <div class="message-bitmap-legend">
+                        <span class="legend-item"><span class="color-box used"></span>已使用</span>
+                        <span class="legend-item"><span class="color-box unused"></span>未使用</span>
+                        <span class="legend-item"><span class="color-box conflict"></span>冲突</span>
+                        <span class="legend-item"><span class="color-box lsb-first"></span>LSB优先(Intel)</span>
+                        <span class="legend-item"><span class="color-box msb-first"></span>MSB优先(Motorola)</span>
+                        <div id="messageSignalColorLegend" class="signal-color-legend">
+                            <!-- 动态生成的信号颜色图例 -->
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- 批量生成区域 -->
@@ -121,21 +150,38 @@
                 
                 <div class="batch-config">
                     <div class="field-group">
-                        <label for="channelRangeStart">起始通道编号:</label>
-                        <input type="number" id="channelRangeStart" min="0" max="9999" value="0">
-                    </div>
-                    <div class="field-group">
-                        <label for="channelRangeEnd">结束通道编号:</label>
-                        <input type="number" id="channelRangeEnd" min="0" max="9999" value="7">
-                    </div>
-                    <div class="field-group">
                         <label for="namingPattern">命名模式:</label>
-                        <input type="text" id="namingPattern" placeholder="例如: Channel_{num}_Data" value="Channel_{num}_Data">
-                        <span class="hint">{num} 会被替换为通道编号</span>
+                        <input type="text" id="namingPattern" placeholder="例如: CH{CH}_FC{FC}_Data_{num}" value="Channel_{num}_Data">
+                        <div class="naming-pattern-help">
+                            <div class="pattern-examples">
+                                <strong>占位符说明:</strong>
+                                <ul>
+                                    <li><code>{num}</code> - 消息序号 (0, 1, 2...)</li>
+                                    <li id="fieldPlaceholdersList">
+                                        <!-- 动态生成的字段占位符列表 -->
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="pattern-examples-section">
+                                <strong>示例模式:</strong>
+                                <ul>
+                                    <li><code>Channel_{num}_Data</code> → Channel_0_Data, Channel_1_Data...</li>
+                                    <li><code>CH{CH}_FC{FC}</code> → CH0_FC1, CH1_FC2... (需要相应字段)</li>
+                                    <li><code>MSG_{num}_{CH}</code> → MSG_0_5, MSG_1_6... (组合使用)</li>
+                                </ul>
+                            </div>
+                            <div class="pattern-validation" id="patternValidation" style="margin-top: 10px; display: none;">
+                                <!-- 动态显示验证结果 -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="batch-preview" id="batchPreview">
+                        <h4>生成预览</h4>
+                        <p id="batchPreviewText">请先配置批量字段以查看生成预览</p>
                     </div>
                     <div class="batch-info">
                         <p style="color: #666; font-size: 0.9em; margin: 10px 0;">
-                            💡 <strong>生成说明</strong>: 系统将为每个通道编号生成对应的报文，选定的批量字段将根据设置的范围自动变化。
+                            💡 <strong>生成说明</strong>: 系统将根据勾选的批量字段及其范围的所有组合生成报文。例如：板卡类型(3~5) × 通道编号(1~8) = 24条报文。
                         </p>
                     </div>
                 </div>
