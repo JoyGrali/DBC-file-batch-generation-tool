@@ -14,7 +14,8 @@ class DBCEditor {
                     bits: 4, 
                     segments: [{position: 20, bits: 4}], 
                     description: '设备板卡类型',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'BT'
                 },
                 { 
                     name: '通道编号', 
@@ -22,28 +23,32 @@ class DBCEditor {
                     segments: [{position: 12, bits: 8}], 
                     description: '通道编号',
                     usedForBatch: true,
-                    batchRange: {min: 0, max: 15}
+                    batchRange: {min: 0, max: 15},
+                    abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
                     bits: 4, 
                     segments: [{position: 8, bits: 4}], 
                     description: '报文功能代码',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'FC'
                 },
                 { 
                     name: '板子编号', 
                     bits: 5, 
                     segments: [{position: 3, bits: 5}], 
                     description: '硬件板卡编号',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'BN'
                 },
                 { 
                     name: 'Box编号', 
                     bits: 3, 
                     segments: [{position: 0, bits: 3}], 
                     description: '设备盒编号',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'BOX'
                 }
             ],
             'simple': [
@@ -53,21 +58,24 @@ class DBCEditor {
                     segments: [{position: 16, bits: 8}], 
                     description: '通道编号',
                     usedForBatch: true,
-                    batchRange: {min: 0, max: 31}
+                    batchRange: {min: 0, max: 31},
+                    abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
                     bits: 8, 
                     segments: [{position: 8, bits: 8}], 
                     description: '功能代码',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'FC'
                 },
                 { 
                     name: '设备ID', 
                     bits: 8, 
                     segments: [{position: 0, bits: 8}], 
                     description: '设备标识',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'DEV'
                 }
             ],
             'split_channel': [
@@ -76,7 +84,8 @@ class DBCEditor {
                     bits: 4, 
                     segments: [{position: 26, bits: 4}], 
                     description: '设备板卡类型',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'BT'
                 },
                 { 
                     name: '通道编号', 
@@ -84,21 +93,24 @@ class DBCEditor {
                     segments: [{position: 23, bits: 3}, {position: 5, bits: 5}], 
                     description: '通道编号(分段配置示例)',
                     usedForBatch: true,
-                    batchRange: {min: 1, max: 50}
+                    batchRange: {min: 1, max: 50},
+                    abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
                     bits: 6, 
                     segments: [{position: 16, bits: 4}, {position: 10, bits: 2}], 
                     description: '功能代码(分段配置)',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'FC'
                 },
                 { 
                     name: '设备ID', 
                     bits: 5, 
                     segments: [{position: 0, bits: 5}], 
                     description: '设备标识',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'DEV'
                 }
             ],
             'standard_simple': [
@@ -108,21 +120,24 @@ class DBCEditor {
                     segments: [{position: 5, bits: 6}], 
                     description: '通道编号(标准帧)',
                     usedForBatch: true,
-                    batchRange: {min: 0, max: 63}
+                    batchRange: {min: 0, max: 63},
+                    abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
                     bits: 3, 
                     segments: [{position: 2, bits: 3}], 
                     description: '功能代码',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'FC'
                 },
                 { 
                     name: '设备ID', 
                     bits: 2, 
                     segments: [{position: 0, bits: 2}], 
                     description: '设备标识',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'DEV'
                 }
             ],
             'standard_detailed': [
@@ -131,7 +146,8 @@ class DBCEditor {
                     bits: 2, 
                     segments: [{position: 9, bits: 2}], 
                     description: '设备板卡类型',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'BT'
                 },
                 { 
                     name: '通道编号', 
@@ -139,21 +155,24 @@ class DBCEditor {
                     segments: [{position: 4, bits: 5}], 
                     description: '通道编号(标准帧)',
                     usedForBatch: true,
-                    batchRange: {min: 0, max: 31}
+                    batchRange: {min: 0, max: 31},
+                    abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
                     bits: 3, 
                     segments: [{position: 1, bits: 3}], 
                     description: '报文功能代码',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'FC'
                 },
                 { 
                     name: 'Box编号', 
                     bits: 1, 
                     segments: [{position: 0, bits: 1}], 
                     description: '设备盒编号',
-                    usedForBatch: false
+                    usedForBatch: false,
+                    abbreviation: 'BOX'
                 }
             ]
         };
@@ -261,6 +280,18 @@ class DBCEditor {
             console.warn('exportBtn 元素未找到');
         }
 
+        // 命名模式实时验证
+        const namingPattern = document.getElementById('namingPattern');
+        if (namingPattern) {
+            namingPattern.addEventListener('input', () => {
+                this.updateNamingPatternHelp();
+            });
+            namingPattern.addEventListener('blur', () => {
+                this.validateAndShowNamingPattern();
+            });
+        } else {
+            console.warn('namingPattern 元素未找到');
+        }
         
         console.log('事件监听器绑定完成');
         
@@ -351,6 +382,15 @@ class DBCEditor {
                     e.preventDefault();
                     e.stopPropagation();
                     this.removeSignalFromMessage(messageId, signalIndex);
+                }
+                
+                // 处理查看位图按钮
+                else if (e.target.classList.contains('message-select-btn')) {
+                    const messageId = e.target.getAttribute('data-message-id');
+                    console.log(`点击查看位图按钮, messageId=${messageId}`);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.showMessageBitmap(messageId);
                 }
             });
         } else {
@@ -476,7 +516,8 @@ class DBCEditor {
             segments: [{position: this.findNextAvailablePosition(), bits: 4}],
             description: '',
             usedForBatch: false,
-            batchRange: {min: 0, max: 15}
+            batchRange: {min: 0, max: 15},
+            abbreviation: 'NEW'  // 添加默认缩写
         };
         
         this.fields.push(newField);
@@ -579,6 +620,12 @@ class DBCEditor {
                 <div class="field-detail">
                     <label>字段名称:</label>
                     <input type="text" value="${field.name}" onchange="dbcEditor.updateField(${index}, 'name', this.value)">
+                </div>
+                <div class="field-detail">
+                    <label>缩写名称:</label>
+                    <input type="text" value="${field.abbreviation || ''}" placeholder="用于命名模式" 
+                           onchange="dbcEditor.updateField(${index}, 'abbreviation', this.value)">
+                    <span class="hint">在命名模式中使用 {${field.abbreviation || 'NEW'}} 作为占位符</span>
                 </div>
                 <div class="field-detail">
                     <label>总位数:</label>
@@ -959,6 +1006,9 @@ class DBCEditor {
                            ${field.usedForBatch ? 'checked' : ''}
                            onchange="dbcEditor.updateBatchFieldEnabled(${index}, this.checked)">
                     <label for="batch_field_${index}">${field.name}</label>
+                    <span class="field-abbreviation" title="在命名模式中使用 {${field.abbreviation || 'N/A'}}">
+                        (缩写: ${field.abbreviation || 'N/A'})
+                    </span>
                 </div>
                 <div class="batch-field-range">
                     <span>范围:</span>
@@ -991,6 +1041,8 @@ class DBCEditor {
             this.updateMessageIdPreview();
             this.checkFieldConflicts();
             this.renderBatchFieldsConfig(); // 更新批量字段配置
+            this.updateNamingPatternHelp(); // 更新命名模式帮助
+            this.updateBatchPreview(); // 更新批量预览
             
             console.log('显示更新完成');
         } catch (error) {
@@ -1247,6 +1299,429 @@ class DBCEditor {
         });
     }
 
+    // ==========================================
+    // 增强的命名模式系统
+    // ==========================================
+    
+    /**
+     * 处理命名模式，支持字段占位符和传统的{num}占位符
+     * @param {string} pattern - 命名模式，例如: "CH{CH}_FC{FC}_Data_{num}"
+     * @param {number} channelNumber - 通道编号
+     * @param {number} functionCode - 功能码（可选）
+     * @returns {string} 处理后的名称
+     */
+    processNamingPattern(pattern, channelNumber, functionCode = 0) {
+        if (!pattern || typeof pattern !== 'string') {
+            return `Message_${channelNumber}`;
+        }
+        
+        let result = pattern;
+        
+        // 处理传统的{num}占位符（保持向后兼容）
+        result = result.replace(/\{num\}/g, channelNumber);
+        
+        // 处理字段占位符 {abbreviation}
+        this.fields.forEach((field, index) => {
+            if (field.abbreviation) {
+                const placeholder = `{${field.abbreviation}}`;
+                const regex = new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g');
+                
+                // 计算字段值
+                let fieldValue;
+                if (field.usedForBatch) {
+                    // 批量字段使用通道号计算值
+                    if (field.batchRange) {
+                        const range = field.batchRange.max - field.batchRange.min + 1;
+                        const offset = channelNumber % range;
+                        fieldValue = field.batchRange.min + offset;
+                    } else {
+                        fieldValue = channelNumber;
+                    }
+                } else if (field.name === '功能码') {
+                    // 功能码字段使用传入的功能码值
+                    fieldValue = functionCode;
+                } else {
+                    // 固定字段使用UI配置值
+                    const input = document.getElementById(`field_${index}`);
+                    fieldValue = input ? parseInt(input.value) || 0 : 0;
+                }
+                
+                // 限制值在字段范围内
+                const maxValue = Math.pow(2, field.bits) - 1;
+                fieldValue = Math.min(Math.max(0, fieldValue), maxValue);
+                
+                // 替换占位符
+                result = result.replace(regex, fieldValue);
+            }
+        });
+        
+        return result;
+    }
+    
+    /**
+     * 获取当前可用的占位符列表
+     * @returns {Array} 占位符信息数组
+     */
+    getAvailablePlaceholders() {
+        const placeholders = [
+            {
+                placeholder: '{num}',
+                description: '通道编号',
+                example: '0, 1, 2...'
+            }
+        ];
+        
+        this.fields.forEach(field => {
+            if (field.abbreviation) {
+                placeholders.push({
+                    placeholder: `{${field.abbreviation}}`,
+                    description: field.name,
+                    example: field.usedForBatch ? 
+                        `${field.batchRange?.min || 0}-${field.batchRange?.max || 0}` :
+                        '固定值',
+                    fieldType: field.usedForBatch ? '批量字段' : '固定字段'
+                });
+            }
+        });
+        
+        return placeholders;
+    }
+    
+    /**
+     * 验证命名模式的有效性
+     * @param {string} pattern - 命名模式
+     * @returns {object} 验证结果
+     */
+    validateNamingPattern(pattern) {
+        const result = {
+            isValid: true,
+            errors: [],
+            warnings: [],
+            usedPlaceholders: []
+        };
+        
+        if (!pattern || typeof pattern !== 'string') {
+            result.isValid = false;
+            result.errors.push('命名模式不能为空');
+            return result;
+        }
+        
+        // 检查空白字符
+        if (pattern.trim() !== pattern) {
+            result.warnings.push('命名模式包含前导或尾随空格');
+        }
+        
+        // 提取所有占位符
+        const placeholderRegex = /\{([^}]+)\}/g;
+        let match;
+        const foundPlaceholders = [];
+        
+        while ((match = placeholderRegex.exec(pattern)) !== null) {
+            foundPlaceholders.push(match[1]);
+        }
+        
+        // 验证占位符
+        const validPlaceholders = ['num', ...this.fields.filter(f => f.abbreviation).map(f => f.abbreviation)];
+        
+        foundPlaceholders.forEach(placeholder => {
+            if (validPlaceholders.includes(placeholder)) {
+                result.usedPlaceholders.push(placeholder);
+            } else {
+                result.isValid = false;
+                result.errors.push(`未知的占位符: {${placeholder}}`);
+            }
+        });
+        
+        // 检查是否包含至少一个有效占位符
+        if (foundPlaceholders.length === 0) {
+            result.warnings.push('命名模式没有使用任何占位符，所有生成的消息将具有相同的名称');
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 更新命名模式帮助信息
+     */
+    updateNamingPatternHelp() {
+        const fieldPlaceholdersList = document.getElementById('fieldPlaceholdersList');
+        if (!fieldPlaceholdersList) return;
+        
+        fieldPlaceholdersList.innerHTML = '';
+        
+        // 生成字段占位符列表
+        this.fields.forEach(field => {
+            if (field.abbreviation) {
+                const li = document.createElement('li');
+                const placeholder = `{${field.abbreviation}}`;
+                const typeInfo = field.usedForBatch ? 
+                    `批量字段 (${field.batchRange?.min || 0}-${field.batchRange?.max || 0})` :
+                    '固定字段';
+                
+                li.innerHTML = `<code>${placeholder}</code> - ${field.name} (${typeInfo})`;
+                fieldPlaceholdersList.appendChild(li);
+            }
+        });
+        
+        if (this.fields.filter(f => f.abbreviation).length === 0) {
+            const li = document.createElement('li');
+            li.style.color = '#999';
+            li.textContent = '暂无可用的字段占位符，请先配置字段缩写';
+            fieldPlaceholdersList.appendChild(li);
+        }
+    }
+    
+    /**
+     * 验证并显示命名模式验证结果
+     */
+    validateAndShowNamingPattern() {
+        const namingPatternInput = document.getElementById('namingPattern');
+        const validationDiv = document.getElementById('patternValidation');
+        
+        if (!namingPatternInput || !validationDiv) return;
+        
+        const pattern = namingPatternInput.value;
+        const validation = this.validateNamingPattern(pattern);
+        
+        validationDiv.innerHTML = '';
+        validationDiv.style.display = 'none';
+        
+        if (!validation.isValid || validation.warnings.length > 0) {
+            validationDiv.style.display = 'block';
+            
+            if (!validation.isValid) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'validation-error';
+                errorDiv.style.color = '#e74c3c';
+                errorDiv.innerHTML = `<strong>错误:</strong> ${validation.errors.join(', ')}`;
+                validationDiv.appendChild(errorDiv);
+            }
+            
+            if (validation.warnings.length > 0) {
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'validation-warning';
+                warningDiv.style.color = '#f39c12';
+                warningDiv.innerHTML = `<strong>警告:</strong> ${validation.warnings.join(', ')}`;
+                validationDiv.appendChild(warningDiv);
+            }
+        }
+        
+        // 显示预览示例
+        if (validation.isValid) {
+            const previewDiv = document.createElement('div');
+            previewDiv.className = 'pattern-preview';
+            previewDiv.style.color = '#27ae60';
+            previewDiv.style.marginTop = '5px';
+            
+            const exampleName1 = this.processNamingPattern(pattern, 0, 1);
+            const exampleName2 = this.processNamingPattern(pattern, 1, 2);
+            
+            previewDiv.innerHTML = `<strong>预览:</strong> ${exampleName1}, ${exampleName2}...`;
+            validationDiv.appendChild(previewDiv);
+            validationDiv.style.display = 'block';
+        }
+    }
+    
+    /**
+     * 生成所有可能的字段组合
+     * @param {Array} batchFields - 批量字段数组
+     * @returns {Array} 字段组合数组
+     */
+    generateFieldCombinations(batchFields) {
+        if (batchFields.length === 0) {
+            return [];
+        }
+        
+        // 生成每个字段的值范围
+        const fieldRanges = batchFields.map(field => {
+            const range = field.batchRange || {min: 0, max: Math.pow(2, field.bits) - 1};
+            const values = [];
+            for (let value = range.min; value <= range.max; value++) {
+                values.push(value);
+            }
+            return {
+                field: field,
+                values: values
+            };
+        });
+        
+        // 使用笛卡尔积生成所有组合
+        const combinations = [];
+        
+        function generateCombinations(currentCombination, remainingRanges) {
+            if (remainingRanges.length === 0) {
+                combinations.push([...currentCombination]);
+                return;
+            }
+            
+            const currentRange = remainingRanges[0];
+            const restRanges = remainingRanges.slice(1);
+            
+            for (const value of currentRange.values) {
+                currentCombination.push({
+                    field: currentRange.field,
+                    value: value
+                });
+                generateCombinations(currentCombination, restRanges);
+                currentCombination.pop();
+            }
+        }
+        
+        generateCombinations([], fieldRanges);
+        
+        console.log(`生成了 ${combinations.length} 个字段组合`);
+        return combinations;
+    }
+    
+    /**
+     * 根据字段组合计算报文ID
+     * @param {Array} combination - 字段组合
+     * @param {number} functionCode - 功能码
+     * @returns {number} 报文ID
+     */
+    calculateMessageIdForCombination(combination, functionCode = 0) {
+        let messageId = 0;
+        
+        // 创建字段值映射
+        const fieldValueMap = new Map();
+        combination.forEach(item => {
+            fieldValueMap.set(item.field, item.value);
+        });
+        
+        this.fields.forEach((field, index) => {
+            let value;
+            
+            if (field.usedForBatch && fieldValueMap.has(field)) {
+                // 批量字段使用组合中的值
+                value = fieldValueMap.get(field);
+            } else if (field.name === '功能码') {
+                // 功能码字段使用传入的功能码值
+                value = functionCode;
+            } else {
+                // 固定字段使用UI配置值
+                const input = document.getElementById(`field_${index}`);
+                value = input ? parseInt(input.value) || 0 : 0;
+            }
+            
+            const maxValue = Math.pow(2, field.bits) - 1;
+            const clampedValue = Math.min(Math.max(0, value), maxValue);
+            
+            // 将值分配到各个段
+            this.distributeValueToSegments(field, clampedValue, (position, bitValue) => {
+                messageId |= (bitValue << position);
+            });
+        });
+        
+        return messageId;
+    }
+    
+    /**
+     * 为字段组合处理命名模式
+     * @param {string} pattern - 命名模式
+     * @param {Array} combination - 字段组合
+     * @param {number} messageIndex - 消息序号
+     * @param {number} functionCode - 功能码
+     * @returns {string} 处理后的名称
+     */
+    processNamingPatternForCombination(pattern, combination, messageIndex, functionCode = 0) {
+        if (!pattern || typeof pattern !== 'string') {
+            return `Message_${messageIndex}`;
+        }
+        
+        let result = pattern;
+        
+        // 处理{num}占位符（现在代表消息序号）
+        result = result.replace(/\{num\}/g, messageIndex);
+        
+        // 创建字段值映射
+        const fieldValueMap = new Map();
+        combination.forEach(item => {
+            fieldValueMap.set(item.field, item.value);
+        });
+        
+        // 处理字段占位符
+        this.fields.forEach((field, index) => {
+            if (field.abbreviation) {
+                const placeholder = `{${field.abbreviation}}`;
+                const regex = new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g');
+                
+                let fieldValue;
+                if (field.usedForBatch && fieldValueMap.has(field)) {
+                    // 批量字段使用组合中的值
+                    fieldValue = fieldValueMap.get(field);
+                } else if (field.name === '功能码') {
+                    // 功能码字段
+                    fieldValue = functionCode;
+                } else {
+                    // 固定字段使用UI配置值
+                    const input = document.getElementById(`field_${index}`);
+                    fieldValue = input ? parseInt(input.value) || 0 : 0;
+                }
+                
+                // 限制值在字段范围内
+                const maxValue = Math.pow(2, field.bits) - 1;
+                fieldValue = Math.min(Math.max(0, fieldValue), maxValue);
+                
+                // 替换占位符
+                result = result.replace(regex, fieldValue);
+            }
+        });
+        
+        return result;
+    }
+    
+    /**
+     * 更新批量预览信息
+     */
+    updateBatchPreview() {
+        const previewElement = document.getElementById('batchPreviewText');
+        if (!previewElement) return;
+        
+        const batchFields = this.fields.filter(field => field.usedForBatch);
+        
+        if (batchFields.length === 0) {
+            previewElement.innerHTML = '请先配置批量字段以查看生成预览';
+            return;
+        }
+        
+        // 计算组合数
+        let totalCombinations = 1;
+        const fieldInfo = [];
+        
+        batchFields.forEach(field => {
+            const range = field.batchRange || {min: 0, max: Math.pow(2, field.bits) - 1};
+            const count = range.max - range.min + 1;
+            totalCombinations *= count;
+            fieldInfo.push(`${field.name}(${range.min}~${range.max}, ${count}个值)`);
+        });
+        
+        const totalMessages = totalCombinations * this.messages.length;
+        
+        previewElement.innerHTML = `
+            <div class="preview-stats">
+                <div class="stat-item">
+                    <span class="stat-label">批量字段:</span>
+                    <span class="stat-value">${batchFields.length}个</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">字段组合:</span>
+                    <span class="stat-value">${totalCombinations}个</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">报文模板:</span>
+                    <span class="stat-value">${this.messages.length}个</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">总报文数:</span>
+                    <span class="stat-value">${totalMessages}个</span>
+                </div>
+            </div>
+            <p style="margin-top: 10px; color: #6c757d; font-size: 0.85em;">
+                字段详情: ${fieldInfo.join(' × ')}
+            </p>
+        `;
+    }
+
     // ===================
     // 多报文管理方法
     // ===================
@@ -1337,6 +1812,13 @@ class DBCEditor {
                         </select>
                     </div>
                     <div class="field-group">
+                        <label>字节序:</label>
+                        <select data-field="byteOrder" onchange="dbcEditor.updateSignalInMessage('${message.id}', ${sigIndex}, 'byteOrder', this.value)">
+                            <option value="lsb" ${(signal.byteOrder || 'lsb') === 'lsb' ? 'selected' : ''}>LSB优先(Intel)</option>
+                            <option value="msb" ${signal.byteOrder === 'msb' ? 'selected' : ''}>MSB优先(Motorola)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
                         <label>比例因子:</label>
                         <input type="number" value="${signal.factor}" data-field="factor" step="0.001"
                                onchange="dbcEditor.updateSignalInMessage('${message.id}', ${sigIndex}, 'factor', parseFloat(this.value))">
@@ -1373,7 +1855,10 @@ class DBCEditor {
         div.innerHTML = `
             <div class="message-header">
                 <h4>报文 ${index + 1}: ${message.name}</h4>
-                <button type="button" class="btn-danger btn-remove-message" data-message-id="${message.id}">删除报文</button>
+                <div class="message-header-buttons">
+                    <button type="button" class="btn-secondary message-select-btn" data-message-id="${message.id}">查看位图</button>
+                    <button type="button" class="btn-danger btn-remove-message" data-message-id="${message.id}">删除报文</button>
+                </div>
             </div>
             <div class="message-editor">
                 <div class="field-group">
@@ -1498,7 +1983,14 @@ class DBCEditor {
         const message = this.messages.find(m => m.id === messageId);
         if (message && message.signals[signalIndex]) {
             message.signals[signalIndex][property] = value;
-            // 不重新渲染，只更新数据
+            
+            // 如果当前报文被选中且位图可见，更新位图
+            if (this.currentSelectedMessage && this.currentSelectedMessage.id === messageId) {
+                const bitmapSection = document.getElementById('messageBitmapSection');
+                if (bitmapSection && bitmapSection.style.display !== 'none') {
+                    this.updateMessageBitmap(message);
+                }
+            }
         }
     }
     
@@ -1679,14 +2171,7 @@ class DBCEditor {
             return;
         }
 
-        const startChannel = parseInt(document.getElementById('channelRangeStart').value);
-        const endChannel = parseInt(document.getElementById('channelRangeEnd').value);
         const namingPattern = document.getElementById('namingPattern').value;
-
-        if (startChannel > endChannel) {
-            alert('起始通道编号不能大于结束通道编号');
-            return;
-        }
 
         // 检查是否有可用于批量生成的字段
         const batchFields = this.fields.filter(field => field.usedForBatch);
@@ -1697,15 +2182,50 @@ class DBCEditor {
 
         console.log(`将使用以下字段进行批量生成: ${batchFields.map(f => f.name).join(', ')}`);
 
-        this.generatedMessages = [];
-        let totalMessageCount = 0;
+        // 验证命名模式
+        const validation = this.validateNamingPattern(namingPattern);
+        if (!validation.isValid) {
+            alert(`命名模式错误:\n${validation.errors.join('\n')}`);
+            return;
+        }
+        
+        // 显示警告信息
+        if (validation.warnings.length > 0) {
+            const proceed = confirm(`检测到以下警告:\n${validation.warnings.join('\n')}\n\n是否继续生成？`);
+            if (!proceed) {
+                return;
+            }
+        }
 
-        // 为每个通道生成所有配置的报文
-        for (let channel = startChannel; channel <= endChannel; channel++) {
+        // 生成所有可能的字段组合
+        const fieldCombinations = this.generateFieldCombinations(batchFields);
+        const totalCombinations = fieldCombinations.length;
+        
+        if (totalCombinations === 0) {
+            alert('没有可生成的字段组合，请检查批量字段配置。');
+            return;
+        }
+        
+        // 检查是否要生成大量报文（超过100条）
+        const totalMessages = totalCombinations * this.messages.length;
+        if (totalMessages > 100) {
+            const proceed = confirm(`将生成 ${totalMessages} 条报文（${totalCombinations} 个字段组合 × ${this.messages.length} 个报文模板）。\n\n生成大量报文可能需要一些时间，是否继续？`);
+            if (!proceed) {
+                return;
+            }
+        }
+
+        this.generatedMessages = [];
+        let messageIndex = 0;
+
+        // 为每个字段组合生成所有配置的报文
+        fieldCombinations.forEach((combination, combinationIndex) => {
             this.messages.forEach((messageTemplate, msgIndex) => {
-                // 计算报文ID（根据功能码调整）
-                const messageId = this.calculateMessageIdForChannel(channel, messageTemplate.functionCode);
-                const messageName = messageTemplate.name.replace('{num}', channel);
+                // 计算报文ID（根据字段组合调整）
+                const messageId = this.calculateMessageIdForCombination(combination, messageTemplate.functionCode);
+                
+                // 使用新的命名模式系统处理消息名称
+                const messageName = this.processNamingPatternForCombination(namingPattern, combination, messageIndex, messageTemplate.functionCode);
 
                 // 生成报文
                 const generatedMessage = {
@@ -1716,16 +2236,16 @@ class DBCEditor {
                     description: messageTemplate.description,
                     signals: messageTemplate.signals.map(signal => ({
                         ...signal,
-                        name: signal.name.includes('{num}') ? signal.name.replace('{num}', channel) : signal.name
+                        name: this.processNamingPatternForCombination(signal.name, combination, messageIndex, messageTemplate.functionCode)
                     }))
                 };
 
                 this.generatedMessages.push(generatedMessage);
-                totalMessageCount++;
+                messageIndex++;
             });
-        }
+        });
 
-        alert(`成功生成 ${endChannel - startChannel + 1} 个通道的 ${this.messages.length} 类报文，共 ${totalMessageCount} 个报文`);
+        alert(`成功生成 ${totalCombinations} 个字段组合的 ${this.messages.length} 类报文，共 ${totalMessages} 个报文`);
         this.previewDBC();
     }
 
@@ -1806,6 +2326,27 @@ class DBCEditor {
         document.getElementById('dbcPreview').value = dbcContent;
     }
 
+    // DBC标识符清理函数
+    cleanDBCIdentifier(str) {
+        if (!str) return 'DefaultName';
+        // 移除非法字符，只保留字母、数字和下划线
+        return str.toString().replace(/[^a-zA-Z0-9_]/g, '_').replace(/^[^a-zA-Z_]/, '_');
+    }
+    
+    // DBC字符串清理函数
+    cleanDBCString(str) {
+        if (!str) return '';
+        // 转义双引号并移除控制字符
+        return str.toString().replace(/"/g, '\\"').replace(/[\r\n\t]/g, ' ').trim();
+    }
+    
+    // 数值验证函数
+    validateNumber(value, min = 0, max = Number.MAX_SAFE_INTEGER) {
+        const num = parseFloat(value);
+        if (isNaN(num)) return min;
+        return Math.max(min, Math.min(max, num));
+    }
+
     // 生成DBC文件内容
     generateDBCContent() {
         let dbcContent = `VERSION ""
@@ -1841,31 +2382,69 @@ NS_ :
 
 BS_:
 
-BU_:
-
-`;
+BU_:`;
 
         const messages = this.generatedMessages.length > 0 ? this.generatedMessages : this.getAllCurrentMessages();
+        
+        // 收集所有用到的节点名称
+        const nodeNames = new Set();
+        messages.forEach(message => {
+            if (message.node) {
+                nodeNames.add(this.cleanDBCIdentifier(message.node));
+            }
+        });
+        
+        // 添加BU_节点定义（紧接在BU_:后面，不要多余空行）
+        if (nodeNames.size > 0) {
+            dbcContent += ' ' + Array.from(nodeNames).join(' ') + '\n\n';
+        } else {
+            dbcContent += '\n\n';
+        }
 
         messages.forEach(message => {
-            dbcContent += `BO_ ${message.id} ${message.name}: ${message.length} ${message.node}\n`;
+            // 验证和清理报文数据
+            const messageId = this.validateNumber(message.id, 0, 0x1FFFFFFF);
+            const messageName = this.cleanDBCIdentifier(message.name);
+            const messageLength = this.validateNumber(message.length, 1, 8);
+            const messageNode = this.cleanDBCIdentifier(message.node);
             
-            message.signals.forEach(signal => {
-                const byteOrder = '1';
-                const valueType = signal.type === 'signed' ? '-' : '+';
-                
-                dbcContent += ` SG_ ${signal.name} : ${signal.startBit}|${signal.length}@${byteOrder}${valueType} (${signal.factor},${signal.offset}) [${signal.min}|${signal.max}] "${signal.unit}" ${message.node}\n`;
-            });
+            dbcContent += `BO_ ${messageId} ${messageName}: ${messageLength} ${messageNode}\n`;
+            
+            if (message.signals && message.signals.length > 0) {
+                message.signals.forEach(signal => {
+                    // 验证和清理信号数据
+                    const signalName = this.cleanDBCIdentifier(signal.name);
+                    const startBit = this.validateNumber(signal.startBit, 0, 63);
+                    const length = this.validateNumber(signal.length, 1, 64);
+                    const factor = this.validateNumber(signal.factor, -1e10, 1e10) || 1;
+                    const offset = this.validateNumber(signal.offset, -1e10, 1e10) || 0;
+                    const min = this.validateNumber(signal.min, -1e10, 1e10) || 0;
+                    const max = this.validateNumber(signal.max, -1e10, 1e10) || 0;
+                    const unit = this.cleanDBCString(signal.unit);
+                    
+                    // 字节序：1=小端(Intel)，0=大端(Motorola)
+                    const byteOrder = (signal.byteOrder === 'msb') ? '0' : '1';
+                    const valueType = (signal.type === 'signed') ? '-' : '+';
+                    
+                    dbcContent += ` SG_ ${signalName} : ${startBit}|${length}@${byteOrder}${valueType} (${factor},${offset}) [${min}|${max}] "${unit}" ${messageNode}\n`;
+                });
+            }
             
             dbcContent += '\n';
         });
 
+        // 添加信号注释
         messages.forEach(message => {
-            message.signals.forEach(signal => {
-                if (signal.description) {
-                    dbcContent += `CM_ SG_ ${message.id} ${signal.name} "${signal.description}";\n`;
-                }
-            });
+            if (message.signals && message.signals.length > 0) {
+                message.signals.forEach(signal => {
+                    if (signal.description && signal.description.trim()) {
+                        const messageId = this.validateNumber(message.id, 0, 0x1FFFFFFF);
+                        const signalName = this.cleanDBCIdentifier(signal.name);
+                        const description = this.cleanDBCString(signal.description);
+                        dbcContent += `CM_ SG_ ${messageId} ${signalName} "${description}";\n`;
+                    }
+                });
+            }
         });
 
         return dbcContent;
@@ -1909,6 +2488,286 @@ BU_:
         URL.revokeObjectURL(link.href);
         
         alert('DBC文件已成功导出');
+    }
+    
+    // ==========================================
+    // 信号位图可视化功能
+    // ==========================================
+    
+    /**
+     * 显示指定报文的信号位图
+     * @param {string} messageId - 报文ID
+     */
+    showMessageBitmap(messageId) {
+        const message = this.messages.find(m => m.id === messageId);
+        if (!message) {
+            console.error(`未找到报文: ${messageId}`);
+            return;
+        }
+        
+        // 更新当前选中的报文
+        this.currentSelectedMessage = message;
+        
+        // 显示位图区域
+        const bitmapSection = document.getElementById('messageBitmapSection');
+        if (bitmapSection) {
+            bitmapSection.style.display = 'block';
+        }
+        
+        // 更新报文信息
+        this.updateMessageBitmapInfo(message);
+        
+        // 更新位图显示
+        this.updateMessageBitmap(message);
+        
+        // 更新报文选中状态
+        this.updateMessageSelection(messageId);
+        
+        // 滚动到位图区域
+        bitmapSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    
+    /**
+     * 更新报文信息显示
+     * @param {Object} message - 报文对象
+     */
+    updateMessageBitmapInfo(message) {
+        const nameElement = document.getElementById('currentMessageName');
+        const lengthElement = document.getElementById('currentMessageLength');
+        const bitsElement = document.getElementById('currentMessageBits');
+        
+        if (nameElement) nameElement.textContent = message.name;
+        if (lengthElement) lengthElement.textContent = message.length;
+        if (bitsElement) bitsElement.textContent = message.length * 8;
+    }
+    
+    /**
+     * 更新报文位图显示
+     * @param {Object} message - 报文对象
+     */
+    updateMessageBitmap(message) {
+        const container = document.getElementById('messageBitDisplay');
+        const scaleContainer = container?.parentElement?.querySelector('.message-bit-scale');
+        const labelsContainer = container?.parentElement?.querySelector('.message-bit-labels');
+        
+        if (!container || !scaleContainer || !labelsContainer) {
+            console.error('位图容器未找到');
+            return;
+        }
+        
+        // 清空容器
+        container.innerHTML = '';
+        scaleContainer.innerHTML = '';
+        labelsContainer.innerHTML = '';
+        
+        const totalBits = message.length * 8;
+        const bitUsage = new Array(totalBits).fill(null);
+        const conflicts = new Set();
+        const byteOrder = new Array(totalBits).fill('lsb'); // 默认LSB
+        
+        // 标记已使用的位和检测冲突
+        message.signals.forEach((signal, signalIndex) => {
+            const startBit = parseInt(signal.startBit) || 0;
+            const length = parseInt(signal.length) || 1;
+            const endBit = startBit + length - 1;
+            
+            // 设置字节序（根据signal的type或配置）
+            const signalByteOrder = this.getSignalByteOrder(signal);
+            
+            for (let i = startBit; i <= endBit && i < totalBits; i++) {
+                if (bitUsage[i] !== null) {
+                    conflicts.add(i);
+                }
+                bitUsage[i] = signalIndex;
+                byteOrder[i] = signalByteOrder;
+            }
+        });
+        
+        // 从高位到低位显示（按字节组织）
+        for (let byteIndex = 0; byteIndex < message.length; byteIndex++) {
+            // 每个字节从高位到低位显示 (7,6,5,4,3,2,1,0)
+            for (let bitInByte = 7; bitInByte >= 0; bitInByte--) {
+                const bitIndex = byteIndex * 8 + bitInByte;
+                
+                // 位标尺
+                const scaleSpan = document.createElement('span');
+                scaleSpan.textContent = bitIndex;
+                scaleContainer.appendChild(scaleSpan);
+                
+                // 位单元格
+                const bitCell = document.createElement('div');
+                bitCell.className = 'message-bit-cell';
+                bitCell.textContent = bitIndex;
+                bitCell.setAttribute('data-bit-index', bitIndex);
+                
+                if (conflicts.has(bitIndex)) {
+                    bitCell.classList.add('signal-conflict');
+                    bitCell.title = `位${bitIndex}: 信号冲突！`;
+                } else if (bitUsage[bitIndex] !== null) {
+                    bitCell.classList.add('signal-used');
+                    const signal = message.signals[bitUsage[bitIndex]];
+                    bitCell.style.backgroundColor = this.getSignalColor(bitUsage[bitIndex]);
+                    bitCell.title = `位${bitIndex}: ${signal.name} (${signal.length}bit, ${byteOrder[bitIndex] === 'msb' ? 'MSB优先' : 'LSB优先'})`;
+                    
+                    // 添加字节序标识
+                    if (byteOrder[bitIndex] === 'msb') {
+                        bitCell.classList.add('msb-first');
+                    } else {
+                        bitCell.classList.add('lsb-first');
+                    }
+                } else {
+                    bitCell.classList.add('signal-unused');
+                    bitCell.title = `位${bitIndex}: 未使用`;
+                }
+                
+                // 添加点击事件
+                bitCell.addEventListener('click', () => {
+                    this.onBitCellClick(bitIndex, message);
+                });
+                
+                container.appendChild(bitCell);
+                
+                // 位标签
+                const labelSpan = document.createElement('span');
+                if (bitUsage[bitIndex] !== null && !conflicts.has(bitIndex)) {
+                    const signal = message.signals[bitUsage[bitIndex]];
+                    const startBit = parseInt(signal.startBit) || 0;
+                    const endBit = startBit + (parseInt(signal.length) || 1) - 1;
+                    
+                    // 只在信号的最高位显示名称
+                    if (bitIndex === endBit) {
+                        labelSpan.textContent = signal.name;
+                        labelSpan.title = `${signal.name} (${startBit}-${endBit})`;
+                    }
+                }
+                labelsContainer.appendChild(labelSpan);
+            }
+        }
+        
+        // 更新信号颜色图例
+        this.updateMessageSignalColorLegend(message);
+    }
+    
+    /**
+     * 获取信号的字节序
+     * @param {Object} signal - 信号对象
+     * @returns {string} 'lsb' 或 'msb'
+     */
+    getSignalByteOrder(signal) {
+        // 可以根据信号的属性或用户配置来决定
+        // 这里默认使用LSB，但可以扩展为用户可配置
+        return signal.byteOrder || 'lsb';
+    }
+    
+    /**
+     * 获取信号颜色
+     * @param {number} signalIndex - 信号索引
+     * @returns {string} 颜色值
+     */
+    getSignalColor(signalIndex) {
+        const colors = [
+            '#e3f2fd',  // 浅蓝色
+            '#f3e5f5',  // 浅紫色
+            '#e8f5e8',  // 浅绿色
+            '#fff3e0',  // 浅橙色
+            '#fce4ec',  // 浅粉色
+            '#e0f2f1',  // 浅青色
+            '#f9fbe7',  // 浅黄绿色
+            '#fff8e1',  // 浅黄色
+            '#efebe9',  // 浅棕色
+            '#eceff1'   // 浅灰色
+        ];
+        return colors[signalIndex % colors.length];
+    }
+    
+    /**
+     * 处理位单元格点击事件
+     * @param {number} bitIndex - 位索引
+     * @param {Object} message - 报文对象
+     */
+    onBitCellClick(bitIndex, message) {
+        // 查找该位对应的信号
+        const signal = message.signals.find(s => {
+            const startBit = parseInt(s.startBit) || 0;
+            const endBit = startBit + (parseInt(s.length) || 1) - 1;
+            return bitIndex >= startBit && bitIndex <= endBit;
+        });
+        
+        if (signal) {
+            // 高亮显示相关信号编辑区域
+            this.highlightSignalEditor(message.id, signal);
+        } else {
+            alert(`位 ${bitIndex} 未被任何信号使用。`);
+        }
+    }
+    
+    /**
+     * 高亮显示信号编辑区域
+     * @param {string} messageId - 报文ID
+     * @param {Object} signal - 信号对象
+     */
+    highlightSignalEditor(messageId, signal) {
+        // 移除所有高亮
+        document.querySelectorAll('.signal-item.editing').forEach(item => {
+            item.classList.remove('editing');
+        });
+        
+        // 查找对应的信号编辑元素
+        const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+        if (messageElement) {
+            const signalElements = messageElement.querySelectorAll('.signal-item');
+            signalElements.forEach((element, index) => {
+                const message = this.messages.find(m => m.id === messageId);
+                if (message && message.signals[index] === signal) {
+                    element.classList.add('editing');
+                    element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+    }
+    
+    /**
+     * 更新信号颜色图例
+     * @param {Object} message - 报文对象
+     */
+    updateMessageSignalColorLegend(message) {
+        const legendContainer = document.getElementById('messageSignalColorLegend');
+        if (!legendContainer) return;
+        
+        legendContainer.innerHTML = '';
+        
+        message.signals.forEach((signal, index) => {
+            const legendItem = document.createElement('div');
+            legendItem.className = 'signal-legend-item';
+            
+            const colorBox = document.createElement('div');
+            colorBox.className = 'signal-color-box';
+            colorBox.style.backgroundColor = this.getSignalColor(index);
+            
+            const label = document.createElement('span');
+            label.textContent = `${signal.name} (${signal.startBit}-${parseInt(signal.startBit) + parseInt(signal.length) - 1})`;
+            
+            legendItem.appendChild(colorBox);
+            legendItem.appendChild(label);
+            legendContainer.appendChild(legendItem);
+        });
+    }
+    
+    /**
+     * 更新报文选中状态
+     * @param {string} selectedMessageId - 选中的报文ID
+     */
+    updateMessageSelection(selectedMessageId) {
+        // 移除所有选中状态
+        document.querySelectorAll('.message-item.selected').forEach(item => {
+            item.classList.remove('selected');
+        });
+        
+        // 添加选中状态
+        const selectedElement = document.querySelector(`[data-message-id="${selectedMessageId}"]`);
+        if (selectedElement) {
+            selectedElement.closest('.message-item').classList.add('selected');
+        }
     }
 }
 
