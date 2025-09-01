@@ -259,6 +259,7 @@ class DBCEditor {
         this.addDefaultMessage(); // 添加默认报文
         this.updateSystemManagedFieldConfig(); // 初始化系统管理字段配置
         this.renderBatchFieldsConfig(); // 渲染批量字段配置
+        this.renderMessageNamingConfig(); // 渲染报文命名模式配置
         this.updateDisplay();
     }
 
@@ -593,6 +594,7 @@ class DBCEditor {
             this.updateSystemManagedFieldConfig(); // 更新系统管理字段配置
             this.renderFields();
             this.renderBatchFieldsConfig(); // 重新渲染批量字段配置
+            this.renderMessageNamingConfig(); // 重新渲染报文命名模式配置
             this.updateDisplay();
         }
     }
@@ -852,6 +854,7 @@ class DBCEditor {
                 if (isNaN(value) || value < 1 || value > this.maxBits) {
                     alert(`位数必须在 1-${this.maxBits} 范围内`);
                     this.renderFields(); // 恢复原值
+                    this.updateDisplay(); // 确保位图也恢复
                     return;
                 }
                 
@@ -861,6 +864,7 @@ class DBCEditor {
                 if (maxPosition > this.maxBits) {
                     alert(`当前分段配置最大位置为${maxPosition}，超出${this.maxBits}位限制`);
                     this.renderFields(); // 恢复原值
+                    this.updateDisplay(); // 确保位图也恢复
                     return;
                 }
             }
@@ -869,6 +873,7 @@ class DBCEditor {
             if (property === 'name' && (!value || value.trim() === '')) {
                 alert('字段名称不能为空');
                 this.renderFields(); // 恢复原值
+                this.updateDisplay(); // 确保位图也恢复
                 return;
             }
             
@@ -943,6 +948,9 @@ class DBCEditor {
             
             // 更新批量预览
             this.updateBatchPreview();
+            
+            // 更新位图显示
+            this.updateDisplay();
         }
     }
     
@@ -953,6 +961,94 @@ class DBCEditor {
         const previewElement = document.getElementById('messageIdPreview');
         if (previewElement) {
             this.updateMessageIdPreview();
+        }
+    }
+
+    /**
+     * 渲染报文命名模式配置区域
+     */
+    renderMessageNamingConfig() {
+        const container = document.getElementById('messageNamingContainer');
+        if (!container) {
+            console.warn('messageNamingContainer 元素未找到');
+            return;
+        }
+        
+        container.innerHTML = '';
+        
+        if (this.messages.length === 0) {
+            container.innerHTML = '<p style="color: #999; font-style: italic;">请先添加报文后再配置命名模式。</p>';
+            return;
+        }
+        
+        this.messages.forEach((message, index) => {
+            const configDiv = document.createElement('div');
+            configDiv.className = 'message-naming-item';
+            configDiv.innerHTML = `
+                <div class="message-naming-header">
+                    <h5>报文 ${index + 1}: ${message.name}</h5>
+                    <span class="message-info">长度: ${message.length} 字节 | 发送节点: ${message.node}</span>
+                </div>
+                <div class="naming-pattern-field">
+                    <label>命名模式:</label>
+                    <input type="text" 
+                           value="${message.namingPattern || `${message.name}_{num}_Data`}" 
+                           placeholder="例如: ${message.name}_{num}_Data" 
+                           onchange="dbcEditor.updateMessageNamingPattern('${message.id}', this.value)">
+                    <div class="pattern-preview" id="patternPreview_${message.id}">
+                        <!-- 动态显示预览 -->
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(configDiv);
+            
+            // 更新当前报文的命名模式预览
+            this.updateMessageNamingPreview(message.id, message.namingPattern || `${message.name}_{num}_Data`);
+        });
+    }
+    
+    /**
+     * 更新报文命名模式
+     */
+    updateMessageNamingPattern(messageId, pattern) {
+        const message = this.messages.find(m => m.id === messageId);
+        if (message) {
+            message.namingPattern = pattern;
+            this.updateMessageNamingPreview(messageId, pattern);
+            this.updateBatchPreview(); // 更新批量预览
+        }
+    }
+    
+    /**
+     * 更新报文命名模式预览
+     */
+    updateMessageNamingPreview(messageId, pattern) {
+        const previewElement = document.getElementById(`patternPreview_${messageId}`);
+        if (!previewElement) return;
+        
+        if (!pattern || pattern.trim() === '') {
+            previewElement.innerHTML = '';
+            return;
+        }
+        
+        try {
+            // 生成几个示例名称
+            const example1 = this.processNamingPatternForCombination(pattern, [], 0, 0);
+            const example2 = this.processNamingPatternForCombination(pattern, [], 1, 0);
+            const example3 = this.processNamingPatternForCombination(pattern, [], 2, 0);
+            
+            previewElement.innerHTML = `
+                <small style="color: #27ae60;">
+                    <strong>预览:</strong> ${example1}, ${example2}, ${example3}...
+                </small>
+            `;
+        } catch (error) {
+            previewElement.innerHTML = `
+                <small style="color: #e74c3c;">
+                    <strong>错误:</strong> 命名模式格式不正确
+                </small>
+            `;
         }
     }
 
@@ -1026,6 +1122,7 @@ class DBCEditor {
             console.log(`批量范围更新: ${field.name} [${field.batchRange.min}, ${field.batchRange.max}]`);
             this.renderBatchFieldsConfig();
             this.updateBatchPreview(); // 更新批量预览
+            this.updateDisplay(); // 更新位图显示
         }
     }
     
@@ -1065,6 +1162,7 @@ class DBCEditor {
                     if (value < 0 || value >= this.maxBits) {
                         alert(`位置必须在 0-${this.maxBits - 1} 范围内`);
                         this.renderFields(); // 恢复原值
+                        this.updateDisplay(); // 确保位图也恢复
                         return;
                     }
                 }
@@ -1073,6 +1171,7 @@ class DBCEditor {
                     if (value < 1 || value > this.maxBits) {
                         alert(`位数必须在 1-${this.maxBits} 范围内`);
                         this.renderFields(); // 恢复原值
+                        this.updateDisplay(); // 确保位图也恢复
                         return;
                     }
                 }
@@ -1084,6 +1183,7 @@ class DBCEditor {
                 if (position + bits > this.maxBits) {
                     alert(`段配置超出${this.maxBits}位限制：位置${position} + 位数${bits} = ${position + bits}`);
                     this.renderFields(); // 恢复原值
+                    this.updateDisplay(); // 确保位图也恢复
                     return;
                 }
                 
@@ -1099,6 +1199,7 @@ class DBCEditor {
                         if ((thisStart <= otherEnd && thisEnd >= otherStart)) {
                             alert(`段配置与段${i + 1}重叠：位置${thisStart}-${thisEnd} 与 ${otherStart}-${otherEnd}`);
                             this.renderFields(); // 恢复原值
+                            this.updateDisplay(); // 确保位图也恢复
                             return;
                         }
                     }
@@ -1400,6 +1501,7 @@ class DBCEditor {
             this.updateMessageIdPreview();
             this.checkFieldConflicts();
             this.renderBatchFieldsConfig(); // 更新批量字段配置
+            this.renderMessageNamingConfig(); // 更新报文命名模式配置
             this.updateNamingPatternHelp(); // 更新命名模式帮助
             this.updateBatchPreview(); // 更新批量预览
             
@@ -1666,6 +1768,82 @@ class DBCEditor {
     // ==========================================
     
     /**
+     * 数字格式化方法
+     * @param {number} value - 要格式化的数值
+     * @param {string} format - 格式化字符串
+     * @returns {string} 格式化后的字符串
+     */
+    formatNumber(value, format) {
+        // 解析格式字符串 例如: "prefix_:03d:_suffix" 或 "05d" 或 "3d0"
+        const parts = format.split(':');
+        
+        let prefix = '';
+        let suffix = '';
+        let numberFormat = format;
+        
+        if (parts.length === 3) {
+            // 完整格式: "prefix:03d:suffix"
+            prefix = parts[0];
+            numberFormat = parts[1];
+            suffix = parts[2];
+        } else if (parts.length === 2) {
+            // 部分格式: "prefix:03d" 或 "03d:suffix"
+            if (parts[1].match(/^\d*[do]?$/)) {
+                // "prefix:03d"
+                prefix = parts[0];
+                numberFormat = parts[1];
+            } else {
+                // "03d:suffix"
+                numberFormat = parts[0];
+                suffix = parts[1];
+            }
+        }
+        
+        // 解析数字格式 (例如: "03d", "5d0", "d")
+        const formatMatch = numberFormat.match(/^(\d*)(d)(\d*)$/);
+        if (!formatMatch) {
+            // 如果格式不匹配，直接返回数值
+            return prefix + value + suffix;
+        }
+        
+        const leadingZeros = formatMatch[1] ? parseInt(formatMatch[1]) : 0;
+        const trailingZeros = formatMatch[3] ? parseInt(formatMatch[3]) : 0;
+        
+        let formattedNumber = value.toString();
+        
+        // 添加前导零
+        if (leadingZeros > 0) {
+            formattedNumber = formattedNumber.padStart(leadingZeros, '0');
+        }
+        
+        // 添加后导零
+        if (trailingZeros > 0) {
+            formattedNumber = formattedNumber.padEnd(formattedNumber.length + trailingZeros, '0');
+        }
+        
+        return prefix + formattedNumber + suffix;
+    }
+    
+    /**
+     * 解析并处理扩展占位符
+     * @param {string} placeholder - 占位符内容（不包括花括号）
+     * @param {number} value - 要格式化的数值
+     * @returns {string} 处理后的字符串
+     */
+    processExtendedPlaceholder(placeholder, value) {
+        // 检查是否包含格式化信息
+        const formatMatch = placeholder.match(/^([A-Z]+):(.+)$/);
+        if (formatMatch) {
+            const fieldAbbr = formatMatch[1];
+            const format = formatMatch[2];
+            return this.formatNumber(value, format);
+        }
+        
+        // 如果没有格式化信息，直接返回数值
+        return value.toString();
+    }
+    
+    /**
      * 处理命名模式，支持字段占位符和传统的{num}占位符
      * @param {string} pattern - 命名模式，例如: "CH{CH}_FC{FC}_Data_{num}"
      * @param {number} channelNumber - 通道编号
@@ -1680,13 +1858,23 @@ class DBCEditor {
         let result = pattern;
         
         // 处理传统的{num}占位符（保持向后兼容）
-        result = result.replace(/\{num\}/g, channelNumber);
+        // 支持格式化: {num:03d}, {num:prefix_:05d:_suffix}
+        const numPlaceholderRegex = /\{num(?::([^}]+))?\}/g;
+        result = result.replace(numPlaceholderRegex, (match, format) => {
+            if (format) {
+                return this.formatNumber(channelNumber, format);
+            }
+            return channelNumber.toString();
+        });
         
         // 处理字段占位符 {abbreviation}
         this.fields.forEach((field, index) => {
             if (field.abbreviation) {
-                const placeholder = `{${field.abbreviation}}`;
-                const regex = new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g');
+                // 支持两种格式:
+                // 1. 简单格式: {CH}
+                // 2. 扩展格式: {CH:03d}, {CH:prefix_:05d:_suffix}
+                const simplePattern = `{${field.abbreviation}}`;
+                const extendedPatternRegex = new RegExp(`\\{${field.abbreviation}:([^}]+)\\}`, 'g');
                 
                 // 计算字段值
                 let fieldValue;
@@ -1712,8 +1900,14 @@ class DBCEditor {
                 const maxValue = Math.pow(2, field.bits) - 1;
                 fieldValue = Math.min(Math.max(0, fieldValue), maxValue);
                 
-                // 替换占位符
-                result = result.replace(regex, fieldValue);
+                // 处理扩展格式占位符
+                result = result.replace(extendedPatternRegex, (match, format) => {
+                    return this.formatNumber(fieldValue, format);
+                });
+                
+                // 处理简单格式占位符
+                const simpleRegex = new RegExp(simplePattern.replace(/[{}]/g, '\\$&'), 'g');
+                result = result.replace(simpleRegex, fieldValue.toString());
             }
         });
         
@@ -1773,13 +1967,29 @@ class DBCEditor {
             result.warnings.push('命名模式包含前导或尾随空格');
         }
         
-        // 提取所有占位符
+        // 提取所有占位符（包括格式化占位符）
         const placeholderRegex = /\{([^}]+)\}/g;
         let match;
         const foundPlaceholders = [];
         
         while ((match = placeholderRegex.exec(pattern)) !== null) {
-            foundPlaceholders.push(match[1]);
+            const placeholderContent = match[1];
+            
+            // 分析占位符内容
+            const parts = placeholderContent.split(':');
+            const mainPlaceholder = parts[0]; // 主占位符名称
+            
+            foundPlaceholders.push(mainPlaceholder);
+            
+            // 如果有格式化信息，验证格式
+            if (parts.length > 1) {
+                const formatPart = parts.slice(1).join(':'); // 重新组合格式部分
+                const formatValidation = this.validateNumberFormat(formatPart);
+                if (!formatValidation.isValid) {
+                    result.isValid = false;
+                    result.errors.push(`占位符 {${placeholderContent}} 的格式不正确: ${formatValidation.error}`);
+                }
+            }
         }
         
         // 验证占位符
@@ -1803,6 +2013,50 @@ class DBCEditor {
     }
     
     /**
+     * 验证数字格式化字符串
+     * @param {string} format - 格式字符串
+     * @returns {object} 验证结果
+     */
+    validateNumberFormat(format) {
+        const result = {
+            isValid: true,
+            error: ''
+        };
+        
+        // 允许的格式示例:
+        // "03d" - 3位前导零
+        // "d0" - 1位后导零
+        // "5d2" - 5位前导零 + 2位后导零
+        // "prefix_:03d:_suffix" - 带前后缀的格式
+        
+        const parts = format.split(':');
+        let numberFormatPart = format;
+        
+        if (parts.length === 1) {
+            // 简单格式: "03d"
+            numberFormatPart = parts[0];
+        } else if (parts.length === 2) {
+            // 两部分格式: "prefix:03d" 或 "03d:suffix"
+            if (parts[1].match(/^\d*d\d*$/)) {
+                numberFormatPart = parts[1];
+            } else {
+                numberFormatPart = parts[0];
+            }
+        } else if (parts.length === 3) {
+            // 三部分格式: "prefix:03d:suffix"
+            numberFormatPart = parts[1];
+        }
+        
+        // 验证数字格式部分
+        if (!numberFormatPart.match(/^\d*d\d*$/)) {
+            result.isValid = false;
+            result.error = `数字格式 "${numberFormatPart}" 不正确，应为类似 "03d", "d0", "5d2" 的格式`;
+        }
+        
+        return result;
+    }
+    
+    /**
      * 更新命名模式帮助信息
      */
     updateNamingPatternHelp() {
@@ -1816,11 +2070,17 @@ class DBCEditor {
             if (field.abbreviation) {
                 const li = document.createElement('li');
                 const placeholder = `{${field.abbreviation}}`;
+                const formattedPlaceholder = `{${field.abbreviation}:03d}`;
                 const typeInfo = field.usedForBatch ? 
                     `批量字段 (${field.batchRange?.min || 0}-${field.batchRange?.max || 0})` :
                     '固定字段';
                 
-                li.innerHTML = `<code>${placeholder}</code> - ${field.name} (${typeInfo})`;
+                li.innerHTML = `
+                    <code>${placeholder}</code> 或 <code>${formattedPlaceholder}</code> - ${field.name} (${typeInfo})
+                    <br><small style="color: #6c757d; margin-left: 20px;">
+                        支持格式化: {${field.abbreviation}:03d}, {${field.abbreviation}:ID_:04d:_END}
+                    </small>
+                `;
                 fieldPlaceholdersList.appendChild(li);
             }
         });
@@ -1979,7 +2239,14 @@ class DBCEditor {
         let result = pattern;
         
         // 处理{num}占位符（现在代表消息序号）
-        result = result.replace(/\{num\}/g, messageIndex);
+        // 支持格式化: {num:03d}, {num:prefix_:05d:_suffix}
+        const numPlaceholderRegex = /\{num(?::([^}]+))?\}/g;
+        result = result.replace(numPlaceholderRegex, (match, format) => {
+            if (format) {
+                return this.formatNumber(messageIndex, format);
+            }
+            return messageIndex.toString();
+        });
         
         // 创建字段值映射
         const fieldValueMap = new Map();
@@ -1987,11 +2254,14 @@ class DBCEditor {
             fieldValueMap.set(item.field, item.value);
         });
         
-        // 处理字段占位符
+        // 处理字段占位符（支持格式化）
         this.fields.forEach((field, index) => {
             if (field.abbreviation) {
-                const placeholder = `{${field.abbreviation}}`;
-                const regex = new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g');
+                // 支持两种格式:
+                // 1. 简单格式: {CH}
+                // 2. 扩展格式: {CH:03d}, {CH:prefix_:05d:_suffix}
+                const simplePattern = `{${field.abbreviation}}`;
+                const extendedPatternRegex = new RegExp(`\\{${field.abbreviation}:([^}]+)\\}`, 'g');
                 
                 let fieldValue;
                 if (field.usedForBatch && fieldValueMap.has(field)) {
@@ -2010,8 +2280,14 @@ class DBCEditor {
                 const maxValue = Math.pow(2, field.bits) - 1;
                 fieldValue = Math.min(Math.max(0, fieldValue), maxValue);
                 
-                // 替换占位符
-                result = result.replace(regex, fieldValue);
+                // 处理扩展格式占位符
+                result = result.replace(extendedPatternRegex, (match, format) => {
+                    return this.formatNumber(fieldValue, format);
+                });
+                
+                // 处理简单格式占位符
+                const simpleRegex = new RegExp(simplePattern.replace(/[{}]/g, '\\$&'), 'g');
+                result = result.replace(simpleRegex, fieldValue.toString());
             }
         });
         
@@ -2089,7 +2365,8 @@ class DBCEditor {
             node: node,
             description: description,
             signals: [],
-            functionCode: 0 // 默认功能码
+            functionCode: 0, // 默认功能码
+            namingPattern: `${name || `Message_${this.messages.length + 1}`}_{num}_Data` // 为每个报文添加独立的命名模式
         };
         
         // 添加默认信号
@@ -2108,6 +2385,7 @@ class DBCEditor {
         
         this.messages.push(message);
         this.renderMessages();
+        this.renderMessageNamingConfig(); // 更新报文命名模式配置
         this.updateMessageCount();
         this.updateBatchPreview(); // 更新批量预览
     }
@@ -2258,6 +2536,10 @@ class DBCEditor {
         if (message) {
             message[property] = value;
             this.renderMessages();
+            // 如果更新的是报文名称，需要更新命名模式配置
+            if (property === 'name') {
+                this.renderMessageNamingConfig();
+            }
             this.updateMessageIdPreview();
             this.updateBatchPreview(); // 更新批量预览
         }
@@ -2277,6 +2559,7 @@ class DBCEditor {
                 
                 console.log('报文删除成功，更新显示');
                 this.renderMessages();
+                this.renderMessageNamingConfig(); // 更新报文命名模式配置
                 this.updateMessageCount();
                 this.updateBatchPreview(); // 更新批量预览
             }
@@ -2578,8 +2861,9 @@ class DBCEditor {
                 // 计算报文ID（根据字段组合调整）
                 const messageId = this.calculateMessageIdForCombination(combination, messageTemplate.functionCode);
                 
-                // 使用新的命名模式系统处理消息名称
-                const messageName = this.processNamingPatternForCombination(namingPattern, combination, messageIndex, messageTemplate.functionCode);
+                // 使用报文模板自己的命名模式，如果没有则使用全局模式
+                const messageNamingPattern = messageTemplate.namingPattern || namingPattern;
+                const messageName = this.processNamingPatternForCombination(messageNamingPattern, combination, messageIndex, messageTemplate.functionCode);
 
                 // 生成报文
                 const generatedMessage = {

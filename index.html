@@ -149,14 +149,26 @@
                 </div>
                 
                 <div class="batch-config">
-                    <div class="field-group">
-                        <label for="namingPattern">命名模式:</label>
+                    <!-- 报文命名模式配置 -->
+                    <div class="message-naming-config">
+                        <h4>报文命名模式配置</h4>
+                        <p style="color: #666; margin-bottom: 15px;">为每个报文配置独立的批量生成命名模式。支持占位符 {num} 和字段缩写。</p>
+                        <div id="messageNamingContainer">
+                            <!-- 动态生成的报文命名模式配置 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 全局命名模式（作为后备）-->
+                    <div class="field-group" style="margin-top: 20px;">
+                        <label for="namingPattern">全局命名模式（后备）:</label>
                         <input type="text" id="namingPattern" placeholder="例如: CH{CH}_FC{FC}_Data_{num}" value="Channel_{num}_Data">
                         <div class="naming-pattern-help">
                             <div class="pattern-examples">
                                 <strong>占位符说明:</strong>
                                 <ul>
                                     <li><code>{num}</code> - 消息序号 (0, 1, 2...)</li>
+                                    <li><code>{num:03d}</code> - 3位前导零格式 (000, 001, 002...)</li>
+                                    <li><code>{num:prefix_:05d:_suffix}</code> - 自定义前后缀 (prefix_00000_suffix, prefix_00001_suffix...)</li>
                                     <li id="fieldPlaceholdersList">
                                         <!-- 动态生成的字段占位符列表 -->
                                     </li>
@@ -166,9 +178,19 @@
                                 <strong>示例模式:</strong>
                                 <ul>
                                     <li><code>Channel_{num}_Data</code> → Channel_0_Data, Channel_1_Data...</li>
+                                    <li><code>Sensor_{CH:03d}_Data</code> → Sensor_009_Data, Sensor_010_Data...</li>
+                                    <li><code>{CH:ID_:04d:_MSG}</code> → ID_0009_MSG, ID_0010_MSG...</li>
                                     <li><code>CH{CH}_FC{FC}</code> → CH0_FC1, CH1_FC2... (需要相应字段)</li>
-                                    <li><code>MSG_{num}_{CH}</code> → MSG_0_5, MSG_1_6... (组合使用)</li>
                                 </ul>
+                                <div class="format-help" style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #17a2b8;">
+                                    <strong>数字格式化说明:</strong>
+                                    <ul style="margin: 5px 0 0 20px; font-size: 0.9em;">
+                                        <li><code>03d</code> - 3位前导零: 009, 010, 011</li>
+                                        <li><code>d0</code> - 1位后导零: 90, 100, 110</li>
+                                        <li><code>5d2</code> - 5位前导零+2位后导零: 0009000, 0010000</li>
+                                        <li><code>ABC_:04d:_DEF</code> - 前缀+4位前导零+后缀: ABC_0009_DEF</li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="pattern-validation" id="patternValidation" style="margin-top: 10px; display: none;">
                                 <!-- 动态显示验证结果 -->

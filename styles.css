@@ -1524,6 +1524,95 @@ section h3 {
     background-color: #c0392b;
 }
 
+.naming-pattern-help {
+    margin-top: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.pattern-examples {
+    margin-bottom: 15px;
+}
+
+.pattern-examples strong {
+    color: #495057;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.pattern-examples ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.pattern-examples li {
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.pattern-examples code {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #d63384;
+    font-weight: 600;
+}
+
+.pattern-examples-section {
+    margin-bottom: 15px;
+}
+
+.format-help {
+    background: #e7f3ff !important;
+    border-left: 3px solid #0dcaf0 !important;
+}
+
+.format-help strong {
+    color: #0c5460;
+}
+
+.format-help ul {
+    margin: 5px 0 0 20px;
+    font-size: 0.9em;
+}
+
+.format-help li {
+    margin-bottom: 3px;
+    color: #055160;
+}
+
+.format-help code {
+    background: #b8daff;
+    color: #084298;
+}
+
+.pattern-validation {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.pattern-validation.valid {
+    background: #d1edff;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+}
+
+.pattern-validation.invalid {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.pattern-validation .preview {
+    margin-top: 8px;
+    font-style: italic;
+}
+
 /* 信号编辑区域 */
 .signal-item {
     background: #f8f9fa;
@@ -1563,6 +1652,100 @@ section h3 {
     background: #ecf0f1;
     border-radius: 5px;
     border-left: 4px solid #3498db;
+}
+
+/* 报文命名模式配置样式 */
+.message-naming-config {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.message-naming-config h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+.message-naming-item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.message-naming-item:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+.message-naming-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.message-naming-header h5 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1em;
+}
+
+.message-info {
+    color: #6c757d;
+    font-size: 0.85em;
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+}
+
+.naming-pattern-field {
+    margin-top: 10px;
+}
+
+.naming-pattern-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.naming-pattern-field input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.naming-pattern-field input[type="text"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.pattern-preview {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid #28a745;
+    min-height: 20px;
+}
+
+.pattern-preview small {
+    font-size: 0.85em;
 }
 
 .message-item {
