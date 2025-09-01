@@ -7,171 +7,245 @@ class DBCEditor {
         this.frameFormat = 'extended'; // 'standard' 或 'extended'
         this.maxBits = 29; // CAN扩展ID最大位数
         this.messageIdCounter = 1; // 报文ID计数器
+        // 字段类型常量
+        this.FIELD_TYPES = {
+            FIXED: 'FIXED',              // 固定字段
+            BATCH: 'BATCH',              // 批量字段
+            SYSTEM_MANAGED: 'SYSTEM_MANAGED'  // 系统管理字段
+        };
+        
+        // 系统管理字段配置
+        this.systemManagedFieldConfig = {
+            functionCodeField: null  // 指定哪个字段作为功能码字段
+        };
+        
         this.templates = {
             'default': [
                 { 
                     name: '板卡类型', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 4, 
                     segments: [{position: 20, bits: 4}], 
                     description: '设备板卡类型',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'BT'
                 },
                 { 
                     name: '通道编号', 
+                    type: this.FIELD_TYPES.BATCH,
                     bits: 8, 
                     segments: [{position: 12, bits: 8}], 
                     description: '通道编号',
+                    defaultValue: 0,
                     usedForBatch: true,
+                    isSystemManaged: false,
                     batchRange: {min: 0, max: 15},
                     abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
+                    type: this.FIELD_TYPES.SYSTEM_MANAGED,
                     bits: 4, 
                     segments: [{position: 8, bits: 4}], 
                     description: '报文功能代码',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: true,
+                    systemManagedSource: 'functionCode',
                     abbreviation: 'FC'
                 },
                 { 
                     name: '板子编号', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 5, 
                     segments: [{position: 3, bits: 5}], 
                     description: '硬件板卡编号',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'BN'
                 },
                 { 
                     name: 'Box编号', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 3, 
                     segments: [{position: 0, bits: 3}], 
                     description: '设备盒编号',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'BOX'
                 }
             ],
             'simple': [
                 { 
                     name: '通道编号', 
+                    type: this.FIELD_TYPES.BATCH,
                     bits: 8, 
                     segments: [{position: 16, bits: 8}], 
                     description: '通道编号',
+                    defaultValue: 0,
                     usedForBatch: true,
+                    isSystemManaged: false,
                     batchRange: {min: 0, max: 31},
                     abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
+                    type: this.FIELD_TYPES.SYSTEM_MANAGED,
                     bits: 8, 
                     segments: [{position: 8, bits: 8}], 
                     description: '功能代码',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: true,
+                    systemManagedSource: 'functionCode',
                     abbreviation: 'FC'
                 },
                 { 
                     name: '设备ID', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 8, 
                     segments: [{position: 0, bits: 8}], 
                     description: '设备标识',
+                    defaultValue: 1,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'DEV'
                 }
             ],
             'split_channel': [
                 { 
                     name: '板卡类型', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 4, 
                     segments: [{position: 26, bits: 4}], 
                     description: '设备板卡类型',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'BT'
                 },
                 { 
                     name: '通道编号', 
+                    type: this.FIELD_TYPES.BATCH,
                     bits: 8, 
                     segments: [{position: 23, bits: 3}, {position: 5, bits: 5}], 
                     description: '通道编号(分段配置示例)',
+                    defaultValue: 1,
                     usedForBatch: true,
+                    isSystemManaged: false,
                     batchRange: {min: 1, max: 50},
                     abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
+                    type: this.FIELD_TYPES.SYSTEM_MANAGED,
                     bits: 6, 
                     segments: [{position: 16, bits: 4}, {position: 10, bits: 2}], 
                     description: '功能代码(分段配置)',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: true,
+                    systemManagedSource: 'functionCode',
                     abbreviation: 'FC'
                 },
                 { 
                     name: '设备ID', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 5, 
                     segments: [{position: 0, bits: 5}], 
                     description: '设备标识',
+                    defaultValue: 1,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'DEV'
                 }
             ],
             'standard_simple': [
                 { 
                     name: '通道编号', 
+                    type: this.FIELD_TYPES.BATCH,
                     bits: 6, 
                     segments: [{position: 5, bits: 6}], 
                     description: '通道编号(标准帧)',
+                    defaultValue: 0,
                     usedForBatch: true,
+                    isSystemManaged: false,
                     batchRange: {min: 0, max: 63},
                     abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
+                    type: this.FIELD_TYPES.SYSTEM_MANAGED,
                     bits: 3, 
                     segments: [{position: 2, bits: 3}], 
                     description: '功能代码',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: true,
+                    systemManagedSource: 'functionCode',
                     abbreviation: 'FC'
                 },
                 { 
                     name: '设备ID', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 2, 
                     segments: [{position: 0, bits: 2}], 
                     description: '设备标识',
+                    defaultValue: 1,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'DEV'
                 }
             ],
             'standard_detailed': [
                 { 
                     name: '板卡类型', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 2, 
                     segments: [{position: 9, bits: 2}], 
                     description: '设备板卡类型',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'BT'
                 },
                 { 
                     name: '通道编号', 
+                    type: this.FIELD_TYPES.BATCH,
                     bits: 5, 
                     segments: [{position: 4, bits: 5}], 
                     description: '通道编号(标准帧)',
+                    defaultValue: 0,
                     usedForBatch: true,
+                    isSystemManaged: false,
                     batchRange: {min: 0, max: 31},
                     abbreviation: 'CH'
                 },
                 { 
                     name: '功能码', 
+                    type: this.FIELD_TYPES.SYSTEM_MANAGED,
                     bits: 3, 
                     segments: [{position: 1, bits: 3}], 
                     description: '报文功能代码',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: true,
+                    systemManagedSource: 'functionCode',
                     abbreviation: 'FC'
                 },
                 { 
                     name: 'Box编号', 
+                    type: this.FIELD_TYPES.FIXED,
                     bits: 1, 
                     segments: [{position: 0, bits: 1}], 
                     description: '设备盒编号',
+                    defaultValue: 0,
                     usedForBatch: false,
+                    isSystemManaged: false,
                     abbreviation: 'BOX'
                 }
             ]
@@ -183,8 +257,79 @@ class DBCEditor {
         this.bindEvents();
         this.loadTemplate('default');
         this.addDefaultMessage(); // 添加默认报文
+        this.updateSystemManagedFieldConfig(); // 初始化系统管理字段配置
         this.renderBatchFieldsConfig(); // 渲染批量字段配置
         this.updateDisplay();
+    }
+
+    // 更新系统管理字段配置
+    updateSystemManagedFieldConfig() {
+        // 自动检测功能码字段
+        const functionCodeField = this.fields.find(field => 
+            field.isSystemManaged && field.systemManagedSource === 'functionCode'
+        );
+        
+        if (functionCodeField) {
+            this.systemManagedFieldConfig.functionCodeField = functionCodeField;
+            console.log(`功能码字段已设置为: ${functionCodeField.name}`);
+        } else {
+            this.systemManagedFieldConfig.functionCodeField = null;
+        }
+    }
+    
+    /**
+     * 统一的字段值获取方法
+     * @param {Object} field - 字段对象
+     * @param {number} fieldIndex - 字段索引
+     * @param {Object} context - 上下文信息
+     * @param {Map} context.batchFieldValues - 批量字段值映射
+     * @param {number} context.functionCode - 功能码值
+     * @returns {number} 字段值
+     */
+    getFieldValue(field, fieldIndex, context = {}) {
+        const { batchFieldValues = new Map(), functionCode = 0 } = context;
+        
+        let value = 0;
+        
+        // 按照优先级获取字段值
+        if (field.type === this.FIELD_TYPES.BATCH && field.usedForBatch) {
+            // 批量字段：优先使用批量值
+            if (batchFieldValues.has(field)) {
+                value = batchFieldValues.get(field);
+            } else {
+                // 如果没有批量值，使用默认值
+                value = field.defaultValue !== undefined ? field.defaultValue : 0;
+            }
+        } else if (field.type === this.FIELD_TYPES.SYSTEM_MANAGED && field.isSystemManaged) {
+            // 系统管理字段：使用系统提供的值
+            if (field.systemManagedSource === 'functionCode') {
+                value = functionCode;
+            } else {
+                // 其他系统管理源，可以在这里扩展
+                value = field.defaultValue !== undefined ? field.defaultValue : 0;
+            }
+        } else {
+            // 固定字段：使用默认值
+            value = field.defaultValue !== undefined ? field.defaultValue : 0;
+        }
+        
+        // 限制值在字段允许范围内
+        const maxValue = Math.pow(2, field.bits) - 1;
+        const clampedValue = Math.min(Math.max(0, value), maxValue);
+        
+        return clampedValue;
+    }
+
+    /**
+     * 获取功能码字段的最大值
+     * @returns {number} 最大值
+     */
+    getFunctionCodeMaxValue() {
+        const functionCodeField = this.systemManagedFieldConfig.functionCodeField;
+        if (functionCodeField && functionCodeField.bits) {
+            return Math.pow(2, functionCodeField.bits) - 1;
+        }
+        return 15; // 默认值
     }
 
     bindEvents() {
@@ -402,11 +547,52 @@ class DBCEditor {
     }
 
     // 加载配置模板
+    /**
+     * 确保字段属性完整性（向后兼容）
+     * @param {Object} field - 字段对象
+     */
+    ensureFieldProperties(field) {
+        // 设置默认字段类型
+        if (!field.type) {
+            if (field.usedForBatch) {
+                field.type = this.FIELD_TYPES.BATCH;
+            } else if (field.name === '功能码') {
+                field.type = this.FIELD_TYPES.SYSTEM_MANAGED;
+                field.isSystemManaged = true;
+                field.systemManagedSource = 'functionCode';
+            } else {
+                field.type = this.FIELD_TYPES.FIXED;
+            }
+        }
+        
+        // 设置默认值
+        if (field.defaultValue === undefined) {
+            field.defaultValue = 0;
+        }
+        
+        // 设置系统管理属性
+        if (field.isSystemManaged === undefined) {
+            field.isSystemManaged = field.type === this.FIELD_TYPES.SYSTEM_MANAGED;
+        }
+        
+        // 设置缩写
+        if (!field.abbreviation) {
+            field.abbreviation = field.name.substring(0, 3).toUpperCase();
+        }
+        
+        return field;
+    }
+
     loadTemplate(templateName) {
         if (this.templates[templateName]) {
             this.fields = JSON.parse(JSON.stringify(this.templates[templateName]));
+            
+            // 确保所有字段属性完整
+            this.fields.forEach(field => this.ensureFieldProperties(field));
+            
+            this.updateSystemManagedFieldConfig(); // 更新系统管理字段配置
             this.renderFields();
-            this.renderIdConfig();
+            this.renderBatchFieldsConfig(); // 重新渲染批量字段配置
             this.updateDisplay();
         }
     }
@@ -512,17 +698,20 @@ class DBCEditor {
     addField() {
         const newField = {
             name: '新字段',
+            type: this.FIELD_TYPES.FIXED,
             bits: 4,
             segments: [{position: this.findNextAvailablePosition(), bits: 4}],
             description: '',
+            defaultValue: 0,
             usedForBatch: false,
+            isSystemManaged: false,
             batchRange: {min: 0, max: 15},
             abbreviation: 'NEW'  // 添加默认缩写
         };
         
         this.fields.push(newField);
         this.renderFields();
-        this.renderIdConfig();
+        this.renderBatchFieldsConfig(); // 更新批量字段配置
         this.updateDisplay();
     }
 
@@ -729,20 +918,75 @@ class DBCEditor {
     }
     
     // 更新批量字段启用状态
+    /**
+     * 更新字段的默认值
+     * @param {number} fieldIndex - 字段索引
+     * @param {number} value - 新的默认值
+     */
+    updateFieldDefaultValue(fieldIndex, value) {
+        if (fieldIndex >= 0 && fieldIndex < this.fields.length) {
+            const field = this.fields[fieldIndex];
+            
+            // 限制值在字段允许范围内
+            const maxValue = Math.pow(2, field.bits) - 1;
+            const clampedValue = Math.min(Math.max(0, value || 0), maxValue);
+            
+            field.defaultValue = clampedValue;
+            
+            console.log(`字段 "${field.name}" 默认值更新为: ${clampedValue}`);
+            
+            // 重新渲染批量字段配置以显示新值
+            this.renderBatchFieldsConfig();
+            
+            // 更新报文ID预览
+            this.updateMessageIdPreviewIfExists();
+            
+            // 更新批量预览
+            this.updateBatchPreview();
+        }
+    }
+    
+    /**
+     * 如果存在报文ID预览元素，则更新它
+     */
+    updateMessageIdPreviewIfExists() {
+        const previewElement = document.getElementById('messageIdPreview');
+        if (previewElement) {
+            this.updateMessageIdPreview();
+        }
+    }
+
     updateBatchFieldEnabled(fieldIndex, enabled) {
         if (fieldIndex >= 0 && fieldIndex < this.fields.length) {
             const field = this.fields[fieldIndex];
+            
+            // 禁止系统管理字段设置为批量字段
+            if (field.type === this.FIELD_TYPES.SYSTEM_MANAGED && field.isSystemManaged) {
+                alert(`字段 "${field.name}" 是系统管理字段，不可设置为批量字段。`);
+                // 重新渲染以恢复复选框状态
+                this.renderBatchFieldsConfig();
+                return;
+            }
+            
             field.usedForBatch = enabled;
             
-            // 初始化批量范围
-            if (enabled && !field.batchRange) {
-                const maxValue = Math.pow(2, field.bits) - 1;
-                field.batchRange = {min: 0, max: maxValue};
+            // 更新字段类型
+            if (enabled) {
+                field.type = this.FIELD_TYPES.BATCH;
+                // 初始化批量范围
+                if (!field.batchRange) {
+                    const maxValue = Math.pow(2, field.bits) - 1;
+                    field.batchRange = {min: 0, max: maxValue};
+                }
+            } else {
+                field.type = this.FIELD_TYPES.FIXED;
             }
             
             console.log(`字段 "${field.name}" 批量状态更新为: ${enabled}`);
             this.renderFields();
             this.renderBatchFieldsConfig();
+            this.updateBatchPreview(); // 更新批量预览
+            this.updateDisplay();
         }
     }
     
@@ -781,6 +1025,7 @@ class DBCEditor {
             
             console.log(`批量范围更新: ${field.name} [${field.batchRange.min}, ${field.batchRange.max}]`);
             this.renderBatchFieldsConfig();
+            this.updateBatchPreview(); // 更新批量预览
         }
     }
     
@@ -969,18 +1214,77 @@ class DBCEditor {
         this.fields.forEach((field, index) => {
             const maxValue = Math.pow(2, field.bits) - 1;
             const fieldDiv = document.createElement('div');
-            fieldDiv.className = 'dynamic-field';
-            fieldDiv.innerHTML = `
-                <label>${field.name}:</label>
-                <input type="number" id="field_${index}" value="0" min="0" max="${maxValue}" 
-                       onchange="dbcEditor.updateMessageIdPreview()">
-                <span class="field-info">${field.bits}bit (0-${maxValue})</span>
-            `;
+            
+            // 根据字段类型设置不同的样式
+            if (field.type === this.FIELD_TYPES.SYSTEM_MANAGED && field.isSystemManaged) {
+                // 系统管理字段：只读显示
+                fieldDiv.className = 'dynamic-field system-managed';
+                const currentValue = field.defaultValue || 0;
+                fieldDiv.innerHTML = `
+                    <label>${field.name}:</label>
+                    <input type="number" id="field_${index}" value="${currentValue}" min="0" max="${maxValue}" 
+                           readonly disabled title="由报文配置管理，不可手动修改">
+                    <span class="field-info">${field.bits}bit (0-${maxValue}) - 系统管理</span>
+                    <div class="field-description">此字段由系统自动管理，值来源：报文配置</div>
+                `;
+            } else if (field.type === this.FIELD_TYPES.BATCH && field.usedForBatch) {
+                // 批量字段：显示但禁用输入
+                fieldDiv.className = 'dynamic-field batch-field';
+                const currentValue = field.defaultValue || 0;
+                fieldDiv.innerHTML = `
+                    <label>${field.name}:</label>
+                    <input type="number" id="field_${index}" value="${currentValue}" min="0" max="${maxValue}" 
+                           readonly title="此字段已设置为批量字段，在批量生成时会自动变化">
+                    <span class="field-info">${field.bits}bit (0-${maxValue}) - 批量字段</span>
+                    <div class="field-description">此字段已启用批量生成，值将在批量生成时自动变化</div>
+                `;
+            } else {
+                // 固定字段：正常输入
+                fieldDiv.className = 'dynamic-field fixed-field';
+                const currentValue = field.defaultValue !== undefined ? field.defaultValue : 0;
+                fieldDiv.innerHTML = `
+                    <label>${field.name}:</label>
+                    <input type="number" id="field_${index}" value="${currentValue}" min="0" max="${maxValue}" 
+                           onchange="dbcEditor.updateMessageIdPreview()">
+                    <span class="field-info">${field.bits}bit (0-${maxValue})</span>
+                    <div class="field-description">${field.description || ''}</div>
+                `;
+            }
+            
             container.appendChild(fieldDiv);
         });
     }
 
     // 渲染批量字段配置区域
+    renderBatchFieldsConfig() {
+        const container = document.getElementById('batchFieldsConfigContainer');
+        container.innerHTML = '';
+        
+        this.fields.forEach((field, index) => {
+            if (field.usedForBatch) {
+                const maxValue = Math.pow(2, field.bits) - 1;
+                const fieldDiv = document.createElement('div');
+                fieldDiv.className = 'batch-field-config';
+                fieldDiv.innerHTML = `
+                    <label>${field.name}:</label>
+                    <input type="number" id="batchField_${index}" value="${field.defaultValue || 0}" min="0" max="${maxValue}" 
+                           onchange="dbcEditor.updateFieldDefaultValue(${index}, parseInt(this.value))">
+                    <span class="field-info">${field.bits}bit (0-${maxValue})</span>
+                    <div class="field-description">此字段已启用批量生成，值将在批量生成时自动变化</div>
+                    <div class="batch-range-config">
+                        <label>范围:</label>
+                        <input type="number" id="batchFieldMin_${index}" value="${field.batchRange ? field.batchRange.min : 0}" min="0" max="${maxValue}" 
+                               onchange="dbcEditor.updateBatchFieldRange(${index}, 'min', parseInt(this.value))">
+                        <span>到</span>
+                        <input type="number" id="batchFieldMax_${index}" value="${field.batchRange ? field.batchRange.max : maxValue}" min="0" max="${maxValue}" 
+                               onchange="dbcEditor.updateBatchFieldRange(${index}, 'max', parseInt(this.value))">
+                    </div>
+                `;
+                container.appendChild(fieldDiv);
+            }
+        });
+    }
+
     renderBatchFieldsConfig() {
         const container = document.getElementById('batchFieldsContainer');
         if (!container) {
@@ -991,44 +1295,99 @@ class DBCEditor {
         container.innerHTML = '';
         
         if (this.fields.length === 0) {
-            container.innerHTML = '<p style="color: #999; font-style: italic;">请先添加字段后再配置批量生成。</p>';
+            container.innerHTML = '<p style="color: #999; font-style: italic;">请先添加字段后再配置。</p>';
             return;
         }
         
         this.fields.forEach((field, index) => {
             const maxValue = Math.pow(2, field.bits) - 1;
             const fieldDiv = document.createElement('div');
-            fieldDiv.className = field.usedForBatch ? 'batch-field-item enabled' : 'batch-field-item';
             
-            fieldDiv.innerHTML = `
-                <div class="batch-field-checkbox">
-                    <input type="checkbox" id="batch_field_${index}" 
-                           ${field.usedForBatch ? 'checked' : ''}
-                           onchange="dbcEditor.updateBatchFieldEnabled(${index}, this.checked)">
-                    <label for="batch_field_${index}">${field.name}</label>
-                    <span class="field-abbreviation" title="在命名模式中使用 {${field.abbreviation || 'N/A'}}">
-                        (缩写: ${field.abbreviation || 'N/A'})
-                    </span>
-                </div>
-                <div class="batch-field-range">
-                    <span>范围:</span>
-                    <input type="number" value="${field.batchRange ? field.batchRange.min : 0}" 
-                           min="0" max="${maxValue}" 
-                           onchange="dbcEditor.updateBatchFieldRange(${index}, 'min', parseInt(this.value))"
-                           ${!field.usedForBatch ? 'disabled' : ''}>
-                    <span>至</span>
-                    <input type="number" value="${field.batchRange ? field.batchRange.max : maxValue}" 
-                           min="0" max="${maxValue}" 
-                           onchange="dbcEditor.updateBatchFieldRange(${index}, 'max', parseInt(this.value))"
-                           ${!field.usedForBatch ? 'disabled' : ''}>
-                </div>
-                <div class="batch-field-info">
-                    字段位数: ${field.bits}bit，最大值: ${maxValue}，当前配置: ${field.usedForBatch ? '已启用' : '未启用'}
-                </div>
-            `;
+            // 根据字段类型设置不同的样式和行为
+            if (field.type === this.FIELD_TYPES.SYSTEM_MANAGED && field.isSystemManaged) {
+                // 系统管理字段：不允许设置为批量字段，显示当前值
+                fieldDiv.className = 'batch-field-item system-managed disabled';
+                fieldDiv.innerHTML = `
+                    <div class="batch-field-header">
+                        <div class="batch-field-checkbox">
+                            <input type="checkbox" id="batch_field_${index}" disabled 
+                                   title="系统管理字段不可设置为批量字段">
+                            <label for="batch_field_${index}" class="disabled">${field.name}</label>
+                            <span class="field-abbreviation" title="在命名模式中使用 {${field.abbreviation || 'N/A'}}">
+                                (缩写: ${field.abbreviation || 'N/A'})
+                            </span>
+                            <span class="system-managed-label">系统管理</span>
+                        </div>
+                        <div class="current-value-display">
+                            当前值: <span class="current-value">由报文配置决定</span>
+                        </div>
+                    </div>
+                    <div class="batch-field-info system-managed">
+                        字段位数: ${field.bits}bit，最大值: ${maxValue}，类型: 系统管理字段（值由报文配置提供）
+                    </div>
+                `;
+            } else {
+                // 普通字段：可以设置为批量字段或配置固定值
+                const isEnabled = field.usedForBatch;
+                fieldDiv.className = isEnabled ? 'batch-field-item enabled' : 'batch-field-item';
+                
+                fieldDiv.innerHTML = `
+                    <div class="batch-field-header">
+                        <div class="batch-field-checkbox">
+                            <input type="checkbox" id="batch_field_${index}" 
+                                   ${isEnabled ? 'checked' : ''}
+                                   onchange="dbcEditor.updateBatchFieldEnabled(${index}, this.checked)">
+                            <label for="batch_field_${index}">${field.name}</label>
+                            <span class="field-abbreviation" title="在命名模式中使用 {${field.abbreviation || 'N/A'}}">
+                                (缩写: ${field.abbreviation || 'N/A'})
+                            </span>
+                        </div>
+                        <div class="mode-indicator">
+                            <span class="mode-label">${isEnabled ? '批量模式' : '固定值模式'}</span>
+                        </div>
+                    </div>
+                    
+                    ${isEnabled ? `
+                        <!-- 批量模式：范围配置 -->
+                        <div class="batch-field-range">
+                            <div class="range-config">
+                                <label>批量范围:</label>
+                                <input type="number" value="${field.batchRange ? field.batchRange.min : 0}" 
+                                       min="0" max="${maxValue}" class="range-input"
+                                       onchange="dbcEditor.updateBatchFieldRange(${index}, 'min', parseInt(this.value))">
+                                <span>至</span>
+                                <input type="number" value="${field.batchRange ? field.batchRange.max : maxValue}" 
+                                       min="0" max="${maxValue}" class="range-input"
+                                       onchange="dbcEditor.updateBatchFieldRange(${index}, 'max', parseInt(this.value))">
+                                <span class="range-preview">将生成 ${field.batchRange ? (field.batchRange.max - field.batchRange.min + 1) : (maxValue + 1)} 个值</span>
+                            </div>
+                        </div>
+                    ` : `
+                        <!-- 固定值模式：直接编辑值 -->
+                        <div class="fixed-value-config">
+                            <div class="fixed-value-editor">
+                                <label>固定值:</label>
+                                <input type="number" value="${field.defaultValue || 0}" 
+                                       min="0" max="${maxValue}" class="fixed-value-input"
+                                       onchange="dbcEditor.updateFieldDefaultValue(${index}, parseInt(this.value))">
+                                <span class="value-info">范围: 0-${maxValue}</span>
+                                <span class="preview-value">当前使用值: ${field.defaultValue || 0}</span>
+                            </div>
+                        </div>
+                    `}
+                    
+                    <div class="batch-field-info">
+                        字段位数: ${field.bits}bit，最大值: ${maxValue}，当前模式: ${isEnabled ? '批量生成' : '固定值'}
+                        ${!isEnabled ? '<br><small>ℹ️ 未勾选的字段在批量生成时使用上方设置的固定值</small>' : ''}
+                    </div>
+                `;
+            }
             
             container.appendChild(fieldDiv);
         });
+        
+        // 更新报文ID预览（如果存在）
+        this.updateMessageIdPreviewIfExists();
     }
 
     // 更新显示
@@ -1255,18 +1614,21 @@ class DBCEditor {
     updateMessageIdPreview() {
         let messageId = 0;
         
+        // 获取当前选中的报文的功能码
+        const selectedMessage = this.messages.find(msg => {
+            const element = document.querySelector(`[data-message-id="${msg.id}"]`);
+            return element && element.classList.contains('selected');
+        });
+        const functionCode = selectedMessage ? selectedMessage.functionCode : 0;
+        
         this.fields.forEach((field, index) => {
-            const input = document.getElementById(`field_${index}`);
-            if (input) {
-                const value = parseInt(input.value) || 0;
-                const maxValue = Math.pow(2, field.bits) - 1;
-                const clampedValue = Math.min(Math.max(0, value), maxValue);
-                
-                // 将值分配到各个段
-                this.distributeValueToSegments(field, clampedValue, (position, bitValue) => {
-                    messageId |= (bitValue << position);
-                });
-            }
+            // 使用统一的字段值获取方法
+            const value = this.getFieldValue(field, index, { functionCode });
+            
+            // 将值分配到各个段
+            this.distributeValueToSegments(field, value, (position, bitValue) => {
+                messageId |= (bitValue << position);
+            });
         });
         
         // 根据帧格式调整显示
@@ -1582,32 +1944,18 @@ class DBCEditor {
     calculateMessageIdForCombination(combination, functionCode = 0) {
         let messageId = 0;
         
-        // 创建字段值映射
-        const fieldValueMap = new Map();
+        // 创建批量字段值映射
+        const batchFieldValues = new Map();
         combination.forEach(item => {
-            fieldValueMap.set(item.field, item.value);
+            batchFieldValues.set(item.field, item.value);
         });
         
         this.fields.forEach((field, index) => {
-            let value;
-            
-            if (field.usedForBatch && fieldValueMap.has(field)) {
-                // 批量字段使用组合中的值
-                value = fieldValueMap.get(field);
-            } else if (field.name === '功能码') {
-                // 功能码字段使用传入的功能码值
-                value = functionCode;
-            } else {
-                // 固定字段使用UI配置值
-                const input = document.getElementById(`field_${index}`);
-                value = input ? parseInt(input.value) || 0 : 0;
-            }
-            
-            const maxValue = Math.pow(2, field.bits) - 1;
-            const clampedValue = Math.min(Math.max(0, value), maxValue);
+            // 使用统一的字段值获取方法
+            const value = this.getFieldValue(field, index, { batchFieldValues, functionCode });
             
             // 将值分配到各个段
-            this.distributeValueToSegments(field, clampedValue, (position, bitValue) => {
+            this.distributeValueToSegments(field, value, (position, bitValue) => {
                 messageId |= (bitValue << position);
             });
         });
@@ -1761,6 +2109,7 @@ class DBCEditor {
         this.messages.push(message);
         this.renderMessages();
         this.updateMessageCount();
+        this.updateBatchPreview(); // 更新批量预览
     }
     
     // 渲染报文列表
@@ -1881,8 +2230,9 @@ class DBCEditor {
                 </div>
                 <div class="field-group">
                     <label>功能码:</label>
-                    <input type="number" value="${message.functionCode}" min="0" max="15" 
+                    <input type="number" value="${message.functionCode}" min="0" max="${this.getFunctionCodeMaxValue()}" 
                            onchange="dbcEditor.updateMessage('${message.id}', 'functionCode', parseInt(this.value))">
+                    <span class="field-info">范围: 0-${this.getFunctionCodeMaxValue()}</span>
                 </div>
                 <div class="field-group">
                     <label>描述:</label>
@@ -1909,6 +2259,7 @@ class DBCEditor {
             message[property] = value;
             this.renderMessages();
             this.updateMessageIdPreview();
+            this.updateBatchPreview(); // 更新批量预览
         }
     }
     
@@ -1927,6 +2278,7 @@ class DBCEditor {
                 console.log('报文删除成功，更新显示');
                 this.renderMessages();
                 this.updateMessageCount();
+                this.updateBatchPreview(); // 更新批量预览
             }
         } else {
             console.error('报文未找到');
@@ -1951,6 +2303,7 @@ class DBCEditor {
             };
             message.signals.push(newSignal);
             this.renderMessages();
+            this.updateBatchPreview(); // 更新批量预览
         }
     }
     
@@ -1969,6 +2322,7 @@ class DBCEditor {
                     
                     console.log('信号删除成功，更新显示');
                     this.renderMessages();
+                    this.updateBatchPreview(); // 更新批量预览
                 }
             } else {
                 alert('报文至少需要保留一个信号');
@@ -2303,9 +2657,8 @@ class DBCEditor {
                     value = channelNumber;
                 }
             } else {
-                // 固定字段使用配置值
-                const input = document.getElementById(`field_${index}`);
-                value = input ? parseInt(input.value) || 0 : 0;
+                // 非批量字段使用统一的值获取方法
+                value = this.getFieldValue(field, index, { functionCode: 0 });
             }
             
             const maxValue = Math.pow(2, field.bits) - 1;
@@ -2403,7 +2756,13 @@ BU_:`;
 
         messages.forEach(message => {
             // 验证和清理报文数据
-            const messageId = this.validateNumber(message.id, 0, 0x1FFFFFFF);
+            let messageId = this.validateNumber(message.id, 0, 0x1FFFFFFF);
+            
+            // 扩展帧需要在ID上加上0x80000000标识
+            if (this.frameFormat === 'extended') {
+                messageId = messageId | 0x80000000;
+            }
+            
             const messageName = this.cleanDBCIdentifier(message.name);
             const messageLength = this.validateNumber(message.length, 1, 8);
             const messageNode = this.cleanDBCIdentifier(message.node);
@@ -2438,7 +2797,13 @@ BU_:`;
             if (message.signals && message.signals.length > 0) {
                 message.signals.forEach(signal => {
                     if (signal.description && signal.description.trim()) {
-                        const messageId = this.validateNumber(message.id, 0, 0x1FFFFFFF);
+                        let messageId = this.validateNumber(message.id, 0, 0x1FFFFFFF);
+                        
+                        // 扩展帧需要在ID上加上0x80000000标识
+                        if (this.frameFormat === 'extended') {
+                            messageId = messageId | 0x80000000;
+                        }
+                        
                         const signalName = this.cleanDBCIdentifier(signal.name);
                         const description = this.cleanDBCString(signal.description);
                         dbcContent += `CM_ SG_ ${messageId} ${signalName} "${description}";\n`;

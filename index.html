@@ -77,19 +77,6 @@
                 </div>
             </section>
 
-            <!-- 报文ID配置区域 -->
-            <section class="config-section">
-                <h2>报文ID数值配置</h2>
-                <div class="id-config" id="idConfigContainer">
-                    <!-- 动态生成的字段输入控件 -->
-                </div>
-                <div class="id-preview">
-                    <strong>当前报文ID: </strong>
-                    <span id="messageIdPreview">0x000</span>
-                    <span class="id-binary" id="binaryPreview">(二进制: 000000000000000000000000)</span>
-                </div>
-            </section>
-
             <!-- 多报文管理区域 -->
             <section class="message-section">
                 <h2>报文管理</h2>
@@ -142,7 +129,20 @@
                 <!-- 批量字段配置 -->
                 <div class="batch-fields-config">
                     <h3>批量字段配置</h3>
-                    <p style="color: #666; margin-bottom: 15px;">选择哪些字段在批量生成时会变化，并设置它们的取值范围。</p>
+                    <p style="color: #666; margin-bottom: 15px;">选择哪些字段在批量生成时会变化，并设置它们的取值范围。未勾选的字段可以直接设置固定值。</p>
+                    
+                    <!-- 实时ID预览 -->
+                    <div class="id-preview-section">
+                        <div class="id-preview">
+                            <strong>当前配置的报文ID: </strong>
+                            <span id="messageIdPreview">0x000</span>
+                            <span class="id-binary" id="binaryPreview">(二进制: 000000000000000000000000)</span>
+                        </div>
+                        <div class="id-preview-note">
+                            <small>ℹ️ 此ID使用下方设置的固定值和当前选中报文的功能码计算得出</small>
+                        </div>
+                    </div>
+                    
                     <div id="batchFieldsContainer">
                         <!-- 动态生成的批量字段配置 -->
                     </div>

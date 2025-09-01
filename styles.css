@@ -62,6 +62,410 @@ section h3 {
     font-size: 1.2em;
 }
 
+/* 字段类型样式 */
+.dynamic-field {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    background: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.dynamic-field.system-managed {
+    background: #f8f9fa;
+    border-color: #6c757d;
+    position: relative;
+}
+
+.dynamic-field.system-managed::before {
+    content: '🔒';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+}
+
+.dynamic-field.batch-field {
+    background: #e3f2fd;
+    border-color: #2196f3;
+    position: relative;
+}
+
+.dynamic-field.batch-field::before {
+    content: '⚡';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+}
+
+.dynamic-field.fixed-field {
+    background: #ffffff;
+    border-color: #28a745;
+}
+
+.dynamic-field input[readonly] {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.dynamic-field input[disabled] {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #ced4da;
+}
+
+.field-description {
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* ID预览区域样式 */
+.id-preview-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+    color: #ffffff;
+    border: 2px solid #2d80b7;
+}
+
+.id-preview {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.id-preview strong {
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 140px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+#messageIdPreview {
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    font-weight: bold;
+    background: #10625f;
+    color: #ffffff;
+    padding: 6px 15px;
+    border-radius: 8px;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+    border: 3px solid #5de7e2;
+}
+
+.id-binary {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #bdc3c7;
+    background: rgba(189, 195, 199, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(189, 195, 199, 0.2);
+}
+
+.id-preview-note {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+.id-preview-note small {
+    font-size: 13px;
+    color: #95a5a6;
+}
+
+/* 批量字段配置样式增强版 */
+.batch-field-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.batch-field-item.enabled {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+    border-color: #28a745;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+}
+
+.batch-field-item.system-managed {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-color: #6c757d;
+    opacity: 0.8;
+}
+
+.batch-field-item.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.batch-field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.batch-field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.batch-field-checkbox input[type="checkbox"] {
+    transform: scale(1.2);
+    margin: 0;
+}
+
+.batch-field-checkbox label {
+    font-weight: 600;
+    font-size: 16px;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.batch-field-checkbox label.disabled {
+    color: #6c757d;
+    text-decoration: line-through;
+}
+
+.field-abbreviation {
+    background: #e3f2fd;
+    color: #1976d2;
+    font-size: 0.8em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.mode-indicator {
+    display: flex;
+    align-items: center;
+}
+
+.mode-label {
+    background: #17a2b8;
+    color: white;
+    font-size: 0.8em;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+.batch-field-item.enabled .mode-label {
+    background: #28a745;
+}
+
+.system-managed-label {
+    background: #6c757d;
+    color: white;
+    font-size: 0.75em;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.current-value-display {
+    font-size: 0.9em;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.current-value {
+    font-weight: 600;
+    color: #495057;
+}
+
+/* 批量范围配置样式 */
+.batch-field-range {
+    margin-bottom: 15px;
+}
+
+.range-config {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.range-config label {
+    font-weight: 600;
+    color: #495057;
+    min-width: 80px;
+}
+
+.range-input {
+    width: 80px;
+    padding: 8px 10px;
+    border: 2px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.range-input:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.range-preview {
+    background: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+/* 固定值配置样式 */
+.fixed-value-config {
+    margin-bottom: 15px;
+}
+
+.fixed-value-editor {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ffeaa7;
+}
+
+.fixed-value-editor label {
+    font-weight: 600;
+    color: #856404;
+    min-width: 60px;
+}
+
+.fixed-value-input {
+    width: 100px;
+    padding: 8px 12px;
+    border: 2px solid #ffc107;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.fixed-value-input:focus {
+    outline: none;
+    border-color: #fd7e14;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    background: #fff;
+}
+
+.value-info {
+    color: #856404;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+.preview-value {
+    background: #d1ecf1;
+    color: #0c5460;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+/* 字段信息样式 */
+.batch-field-info {
+    font-size: 0.9em;
+    color: #6c757d;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #17a2b8;
+    line-height: 1.5;
+}
+
+.batch-field-info.system-managed {
+    background: #e9ecef;
+    color: #495057;
+    border-left-color: #6c757d;
+}
+
+.batch-field-item.enabled .batch-field-info {
+    border-left-color: #28a745;
+}
+
+/* 批量字段配置样式 - 老版本 */
+
+.batch-field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.batch-field-checkbox label.disabled {
+    color: #6c757d;
+    text-decoration: line-through;
+}
+
+.system-managed-label {
+    background: #6c757d;
+    color: white;
+    font-size: 0.75em;
+    padding: 2px 6px;
+    border-radius: 12px;
+    margin-left: 10px;
+}
+
+.batch-field-range {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.batch-field-range.disabled {
+    opacity: 0.5;
+}
+
+.batch-field-range input {
+    width: 80px;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.batch-field-info {
+    font-size: 0.85em;
+    color: #6c757d;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.batch-field-info.system-managed {
+    background: #e9ecef;
+    color: #495057;
+}
+
 /* 表单样式 */
 .field-group {
     margin-bottom: 15px;
@@ -1056,7 +1460,7 @@ section h3 {
 
 .id-preview {
     padding: 15px;
-    background: #ecf0f1;
+    background: #10625f;
     border-radius: 5px;
     border-left: 4px solid #3498db;
 }
